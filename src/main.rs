@@ -9,9 +9,9 @@ fn hello(_: Request, resp: Response) {
 }
 
 fn main() {
-    let _ = hyper::Server::http("127.0.0.1:3000")
+    let _ = hyper::Server::http("192.168.0.40:8040")
                 .unwrap()
                 .handle(hello);
 
-    println!("Listening on http://127.0.0.1:3000");
+    println!("Listening on http://192.168.0.40:8040");
 }
