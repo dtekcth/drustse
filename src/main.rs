@@ -2,7 +2,7 @@ extern crate hyper;
 
 use hyper::server::{Request, Response};
 
-static HELLO_WORLD: &'static [u8] = b"Hello World!";
+static HELLO_WORLD: &'static [u8] = b"Hello Vorld!";
 
 fn hello(_: Request, resp: Response) {
     resp.send(HELLO_WORLD).unwrap();
