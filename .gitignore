@@ -1,1 +1,8 @@
-target
+# Compiled files
+*.css
+
+# IDE-related info
+.idea/
+
+# Other stuff
+node_modules/

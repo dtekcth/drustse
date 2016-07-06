@@ -1,5 +1,11 @@
 # drust.dtek.se web server
 
-## Contribute
+## Setup
 
-Format code using [`rustfmt`](https://github.com/rust-lang-nursery/rustfmt) with default settings.
+Install node
+
+Install npm
+
+Run `npm install`
+
+Run `npm start` or `node server.js` to start the server

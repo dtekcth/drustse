@@ -1,0 +1,12 @@
+{
+  "name": "drust-website",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "node-sass-middleware": "^0.9.8",
+    "pug": "^2.0.0-beta3"
+  }
+}
