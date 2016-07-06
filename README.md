@@ -2,10 +2,8 @@
 
 ## Setup
 
-Install node
+1. Install node and npm
 
-Install npm
+2. Run `npm install`
 
-Run `npm install`
-
-Run `npm start` or `node server.js` to start the server
+3. Run `npm start` or `node server.js` to start the server
