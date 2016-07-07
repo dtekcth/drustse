@@ -25,6 +25,11 @@ app.use(express.static('public'));
 
 app.set('view engine', 'pug');
 
-app.get('/', (req, res) => { res.render('base', {title:'test'}); });
+app.get('/',      (req, res) => { res.render('base'); });
+app.get('/drust', (req, res) => { res.render('drust', {title:'DRust'}); });
+app.get('/basen', (req, res) => { res.render('basen', {title:'Basen'}); });
+app.get('/verktyg', (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
+app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'}); });
+app.get('/flipper', (req, res) => { res.render('flipper', {title:'Flipper'}); });
 
 app.listen(port);

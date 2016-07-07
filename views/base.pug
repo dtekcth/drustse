@@ -1,18 +1,22 @@
 doctype html
 html
     head
-        title= title
+        block title
+        title Base
         link(rel='stylesheet', href=('/stylesheets/layout.css'))
         script(type='text/javascript', src=('/js/test.js'))
     body
-        h1 Test
+        nav
+            ul
+                li
+                    a(href='/drust') Om Drust
+                li
+                    a(href='/basen') Basen
+                li
+                    a(href='/verktyg') Verktyg
+                li
+                    a(href='/automaten') Automaten
+                li
+                    a(href='/flipper') Flipper
 
-        script
-            :babel
-                class Person {
-                    constructor(name){
-                        this.name = name;
-                    }
-                }
-                var pers = new Person('taira');
-                console.log(pers.name);
+        block content
