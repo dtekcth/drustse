@@ -6,3 +6,13 @@ html
         script(type='text/javascript', src=('/js/test.js'))
     body
         h1 Test
+
+        script
+            :babel
+                class Person {
+                    constructor(name){
+                        this.name = name;
+                    }
+                }
+                var pers = new Person('taira');
+                console.log(pers.name);

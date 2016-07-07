@@ -3,6 +3,11 @@
 const express = require('express');
 const sassMiddleware = require('node-sass-middleware');
 
+// For ES6 js in pug files
+const pug = require('pug');
+const babel = require('jade-babel');
+pug.filters.babel = babel({});
+
 
 const app = express();
 const debugMode = true;
