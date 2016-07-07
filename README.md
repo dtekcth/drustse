@@ -6,4 +6,4 @@
 
 2. Run `npm install`
 
-3. Run `npm start` or `node server.js` to start the server
+3. Run `npm start` to start the server

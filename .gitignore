@@ -1,5 +1,6 @@
 # Compiled files
 *.css
+public/js/*.js
 
 # IDE-related info
 .idea/
