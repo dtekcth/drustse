@@ -25,11 +25,15 @@
   block content
   ```
 3. In server.js add:
-`app.get('/$path',(req, res) => { res.render('$name', {title:'$title'}); });` 
-where 
-$path is the subfolder in the url that you want,
-$name is the name of the pug file,
-$title is the title you want for the view.
+  ```javascript
+  
+  app.get('/$path',(req, res) => { res.render('$name', {title:'$title'}); });
+  
+  ```
+  where 
+  $path is the subfolder in the url that you want,
+  $name is the name of the pug file,
+  $title is the title you want for the view.
 
 ### Javascript in pug files
 Example:
