@@ -1,5 +1,38 @@
-$color1 : red;
 
-h1 {
-  color: $color1;
+// Default navigation menu colors
+$nav-background   : #444444;
+$nav-text         : white;
+$nav-hover        : #8f8f8f;
+
+nav {
+  ul {
+    margin: 0;
+    padding: 0;
+    background-color: $nav-background;
+    list-style: none;
+    height: 100%;
+  }
+
+  li {
+    display: inline-block;
+    border: 1px solid $nav-background;
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
+    color: $nav-text;
+    padding: 0.4rem 0.8rem;
+  }
+
+  a:hover {
+    background-color: $nav-hover;
+  }
+
+  a.active {
+    // Switch colors
+    background-color: $nav-text;
+    color: $nav-background;
+  }
+
 }

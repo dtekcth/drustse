@@ -27,7 +27,7 @@ app.use(express.static('public'));
 app.set('view engine', 'pug');
 
 // Routes
-app.get('/',          (req, res) => { res.render('base'); }); // Placeholder template
+app.get('/',          (req, res) => { res.render('drust'); }); // Placeholder template
 app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
 app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
 app.get('/verktyg',   (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
