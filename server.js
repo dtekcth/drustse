@@ -35,6 +35,7 @@ app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'
 app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
 
 app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
+app.get('/topsecret', (req, res) => { res.render('topsecret', {title:'Top Secret'}); });
 
 
 app.listen(port);
