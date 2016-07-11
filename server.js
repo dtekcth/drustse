@@ -12,7 +12,7 @@ pug.filters.babel = babel({});
 
 // Constants
 const debugMode = true;
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // Settings for static files
 app.use(sassMiddleware({
