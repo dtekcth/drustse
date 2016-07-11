@@ -2,7 +2,7 @@
   "name": "drust-website",
   "version": "0.0.1",
   "scripts": {
-    "start": "babel public/js --out-dir public/js && node server.js"
+    "start": "babel public/js --out-dir public/js && nodejs server.js"
   },
   "dependencies": {
     "babel-cli": "^6.10.1",
