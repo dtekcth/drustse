@@ -1,8 +1,15 @@
+// General colors
+$data : #FA6607;
 
 // Default navigation menu colors
-$nav-background   : #444444;
+$nav-background   : #444;
 $nav-text         : white;
 $nav-hover        : #8f8f8f;
+
+body {
+  margin: 0;
+  font-family: 'Fira Sans', sans-serif;
+}
 
 nav {
   ul {
@@ -53,4 +60,45 @@ ul.links {
   a:hover {
     color: gray;
   }
+}
+
+#drust-header {
+  background-image: url("/luva.jpg");
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  height: 400px;
+  padding-top: 130px;
+}
+
+#drust-header .title-bar {
+  background-color: rgba(black, 0.6);
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px black;
+}
+
+#drust-header .title-bar b {
+  font-size: 40pt;
+  font-weight: medium;
+  color: $data;
+  text-shadow: 1px 1px 1px rgba($data, 0.7);
+  width: 640px;
+  text-align: center;
+  opacity: 0.95
+}
+
+
+
+#drust-header .title-bar img {
+  height: 400px;
+  opacity: 0.95;
+}
+
+#drust-main {
+  min-height: 400px;
+  padding: 60px 0;
+  background-image: url("/bg.png");
+  box-shadow: 0 -4px 20px black;
 }

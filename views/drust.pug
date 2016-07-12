@@ -1,10 +1,18 @@
 extends ./base.pug
 
-block link
-    -var selected = 'DRust';
-
 block title
     title= title
 
+block link
+    -var selected = 'DRust';
+
+block header
+    header#drust-header
+        div.title-bar
+            b Datateknologsektionens
+            img(src="/drust16.svg")
+            b Rustmästeri
+
 block content
-    h1 DRust
+    main#drust-main
+        h1 Drust e najs
