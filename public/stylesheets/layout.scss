@@ -63,25 +63,21 @@ ul.links {
 }
 
 #drust-header {
-
-  background-image: url("/images/luva.jpg");
-  background-size: auto 100%;
-  background-repeat: repeat-x;
-
-  height: 400px;
-  padding-top: 130px;
+  background-image: url("/images/bg-osklud.png");
+  background-size: 100% auto;
+  background-position: 0 -186px;
+  height: 600px;
+  padding-top: 155px;
 
   .title-bar {
-
-    background-color: rgba(black, 0.6);
-    height: 160px;
+    background-color: rgba(black, 0.7);
+    height: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 0 10px black;
 
     b {
-
       font-size: 40pt;
       font-weight: medium;
       color: $data;
@@ -92,7 +88,6 @@ ul.links {
     }
 
     img {
-
       height: 400px;
       opacity: 0.95;
     }
@@ -103,5 +98,5 @@ ul.links {
   min-height: 400px;
   padding: 60px 0;
   background-image: url("/images/bg.png");
-  box-shadow: 0 -4px 20px black;
+  box-shadow: 0 -6px 18px black;
 }
