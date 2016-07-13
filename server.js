@@ -65,7 +65,7 @@ app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); 
 app.get('/db', function(req, res) {
   Tool.find(function(err, tools){
     if (err) { console.error(err); }
-    
+
     res.render('db', {tools:tools});
   });
 });
@@ -104,6 +104,29 @@ app.post('/db/update', function(req, res){
     res.redirect('/db');
   })
 });
+
+app.post('/db/remove', function(req, res){
+  const name = req.body.name;
+  const id = lookupTools[name];
+
+  Tool.findById(id, function(err, tool){
+    if (err) return console.error(err);
+
+    tool.remove(function(err){
+      if (err) return console.error(err);
+
+      console.log('Deleted Tool: ' + tool.name);
+    });
+
+    delete lookupTools[name];
+
+    res.redirect('/db');
+
+  });
+
+  delete lookupTools[name];
+
+} );
 
 // Hidden routes
 app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
