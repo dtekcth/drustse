@@ -11,7 +11,7 @@ html
         script(type='text/javascript', src=('/js/test.js'))
 
         block link
-                - var selected = 'DRust';
+            - var selected = 'DRust';
 
     -
         var menu = {'DRust' : '/drust',
@@ -22,15 +22,18 @@ html
 
     body
         block banner
-            div.thin-banner
+            div#thin-banner
 
-        block content
-            main
+        main
+            header
                 block header
-                    header
-                        nav.site-nav
-                            each link, name in menu
-                                if name === selected
-                                    a.active(href=link)= name
-                                else
-                                    a(href=link)= name
+                    a(href="/")
+                        img(src="/images/drust16.svg")
+                    nav.site-nav
+                        each link, name in menu
+                            if name === selected
+                                a.active(href=link)= name
+                            else
+                                a(href=link)= name
+
+            block content

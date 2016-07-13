@@ -9,25 +9,29 @@ $nav-background   : #444;
 $nav-text         : white;
 $nav-hover        : #8f8f8f;
 
+$main-shadow : 0 0 8px 1px rgba(black, 0.75);
+$main-radius : 4px;
+
 body {
   margin: 0;
   font-family: 'Fira Sans', sans-serif;
+  font-size: 18px;
 }
 
 a {
   color: $data;
-  background-color: $snow;
   transition: all 32ms linear;
 }
 a:hover {
   color: $dark-data;
-  background-color: $light-data;
 }
 a.active {
   color: $dark-data;
-  background-color: $data;
 }
 
+h1, h2, h3, h4 {
+  text-align: center;
+}
 
 nav {
   a {
@@ -37,7 +41,7 @@ nav {
 }
 
 #drust-banner {
-  background-image: url("/images/bg-osklud.png");
+  background-image: url("/images/bg-oskuld.jpg");
   background-size: 100% auto;
   background-position: 0 -190px;
   height: 630px;
@@ -52,7 +56,7 @@ nav {
     box-shadow: 0 0 10px black;
 
     b {
-      font-size: 40pt;
+      font-size: 52px;
       font-weight: medium;
       color: $data;
       text-shadow: 1px 1px 1px rgba($data, 0.7);
@@ -68,22 +72,63 @@ nav {
 }
 
 main {
-  min-height: 400px;
+  padding-bottom: 80px;
   background-image: url("/images/bg.png");
+  background-size: 300px;
   box-shadow: 0 0 20px 5px rgba(black, 0.9);
+}
+
+main > header {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 48px;
+  margin-bottom: 56px;
+
+  img {
+    height: 200px;
+  }
 }
 
 .site-nav {
   display: flex;
   justify-content: center;
-  position: relative;
-  top: -24px;
 
   a {
     text-align: center;
     font-size: 24pt;
     padding: 16px 32px;
     margin: 0 30px;
-    box-shadow: 0 0 4px 1px rgba(black, 0.9);
+    box-shadow: $main-shadow;
+    border-radius: $main-radius;
+    background-color: $snow;
+  }
+
+  a:hover {
+    background-color: $light-data;
+  }
+
+  a.active {
+    background-color: $data;
+  }
+}
+
+#thin-banner {
+  background-color: $data;
+  height: 200px;
+}
+
+article {
+  width: 960px;
+  margin: auto;
+  padding: 60px 80px;
+  box-sizing: border-box;
+  background-color: $snow;
+  box-shadow: $main-shadow;
+  border-radius: $main-radius;
+
+  iframe {
+    display: block;
+    margin: auto;
   }
 }
