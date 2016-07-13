@@ -21,14 +21,16 @@ html
                     'Flipper' : '/flipper'};
 
     body
-        block header
-            nav
-                ul
-                    each link, name in menu
-                        li
-                            if name === selected
-                                a.active(href=link)= name
-                            else
-                                a(href=link)= name
+        block banner
+            div.thin-banner
 
         block content
+            main
+                block header
+                    header
+                        nav.site-nav
+                            each link, name in menu
+                                if name === selected
+                                    a.active(href=link)= name
+                                else
+                                    a(href=link)= name

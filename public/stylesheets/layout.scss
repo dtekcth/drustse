@@ -1,5 +1,8 @@
 // General colors
-$data : #FA6607;
+$data      : #FA6607;
+$light-data: lighten($data, 38%);
+$dark-data : darken($data, 32%);
+$snow : #FFFAFA;
 
 // Default navigation menu colors
 $nav-background   : #444;
@@ -11,62 +14,33 @@ body {
   font-family: 'Fira Sans', sans-serif;
 }
 
+a {
+  color: $data;
+  background-color: $snow;
+  transition: all 32ms linear;
+}
+a:hover {
+  color: $dark-data;
+  background-color: $light-data;
+}
+a.active {
+  color: $dark-data;
+  background-color: $data;
+}
+
+
 nav {
-  ul {
-    margin: 0;
-    padding: 0;
-    background-color: $nav-background;
-    list-style: none;
-    height: 100%;
-  }
-
-  li {
-    display: inline-block;
-    border: 1px solid $nav-background;
-  }
-
   a {
     display: block;
     text-decoration: none;
-    color: $nav-text;
-    padding: 0.4rem 0.8rem;
-  }
-
-  a:hover {
-    background-color: $nav-hover;
-  }
-
-  a.active {
-    // Switch colors
-    background-color: $nav-text;
-    color: $nav-background;
-  }
-
-}
-
-ul.links {
-
-  list-style: none;
-
-  li {
-    padding-top:0.5rem;
-  }
-
-  a {
-    text-decoration: none;
-    color: black;
-  }
-
-  a:hover {
-    color: gray;
   }
 }
 
-#drust-header {
+#drust-banner {
   background-image: url("/images/bg-osklud.png");
   background-size: 100% auto;
-  background-position: 0 -186px;
-  height: 600px;
+  background-position: 0 -190px;
+  height: 630px;
   padding-top: 155px;
 
   .title-bar {
@@ -84,7 +58,6 @@ ul.links {
       text-shadow: 1px 1px 1px rgba($data, 0.7);
       width: 640px;
       text-align: center;
-      opacity: 0.95
     }
 
     img {
@@ -94,9 +67,23 @@ ul.links {
   }
 }
 
-#drust-main {
+main {
   min-height: 400px;
-  padding: 60px 0;
   background-image: url("/images/bg.png");
-  box-shadow: 0 -6px 18px black;
+  box-shadow: 0 0 20px 5px rgba(black, 0.9);
+}
+
+.site-nav {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: -24px;
+
+  a {
+    text-align: center;
+    font-size: 24pt;
+    padding: 16px 32px;
+    margin: 0 30px;
+    box-shadow: 0 0 4px 1px rgba(black, 0.9);
+  }
 }
