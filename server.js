@@ -5,6 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const async = require('async');
+const path = require('path');
 
 // Database models
 const Tool = require('./toolModel');
@@ -161,21 +162,34 @@ app.post('/db/remove', function(req, res){
 } );
 
 // Temporary mock-handlers
+
+function getArticles() {
+  return {success: true, payload: [
+    {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum grande coche'},
+    {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e hunter2. no hack pls'},
+    {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden'}
+  ]};
+}
+
+function getArticle(id) {
+  switch (id) {
+  case 3: return {success: true, payload: {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum grande coche'}};
+  case 2: return {success: true, payload: {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e hunter2. no hack pls'}};
+  case 1: return {success: true, payload: {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden'}};
+  }
+}
+
 app.get('/db/get/articles', (req, res) => {
-    res.json({success: true, payload: [
-        {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum grande coche'},
-        {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e hunter2. no hack pls'},
-        {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden'}
-    ]});
+  res.json(getArticles());
 });
-app.get('/db/get/articles/3', (req, res) => {
-    res.json({success: true, payload: {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum grande coche'}});
-});
-app.get('/db/get/articles/2', (req, res) => {
-    res.json({success: true, payload: {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e hunter2. no hack pls'}});
-});
-app.get('/db/get/articles/1', (req, res) => {
-    res.json({success: true, payload: {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden'}});
+app.get('/db/get/articles/*', (req, res) => {
+  let id = Number(path.basename(req.path));
+
+  if (id !== NaN) {
+    res.json(getArticle(id));
+  } else {
+    res.json({success: false});
+  }
 });
 
 // Hidden routes
