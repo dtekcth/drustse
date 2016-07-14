@@ -34,6 +34,9 @@ block content
         unless isUnique
             #error Finns redan
 
+        if noName
+            #error Du angav inget namn
+
 
         each v in tools
             p= v

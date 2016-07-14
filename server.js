@@ -63,7 +63,6 @@ app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'
 app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
 
 // For testing
-//TODO: Make admin page (/db -> /admin) and link to all subdirectories (ex /admin/tools) for db work
 app.get('/db/tools/', function(req, res) {
   Tool.find(function(err, tools){
     if (err) { console.error(err); }
@@ -76,7 +75,15 @@ app.get('/db/tools/', function(req, res) {
       isUnique = true;
     }
 
-    res.render('db_tools', {tools:tools,isUnique:isUnique});
+    // Read noName from query
+    let noName;
+    if (req.query.noName !== undefined) {
+      noName = req.query.noName === 'false';
+    } else {
+      noName = false;
+    }
+
+    res.render('db_tools', {tools:tools,isUnique:isUnique, noName:noName});
   });
 });
 
@@ -92,13 +99,20 @@ app.post('/db/tools/new', function(req, res) {
   // Is the tool not in db?
   let isUnique = true;
 
+  // Did the user forget to type a name?
+  let noName = false;
+
   // Run save first to update isUnique before it is used in the redirect
   async.series([
     function(callback){
       // Save in db
       tool.save((err, v) => {
         if (err) {
-          isUnique = false;
+          if (err.name === 'MongoError') {
+            isUnique = false;
+          } else if (err.name === 'ValidatorError' && err.kind === 'required'){
+            noName = true;
+          }
           callback(null);
           return console.error(err);
         } else {
@@ -108,7 +122,7 @@ app.post('/db/tools/new', function(req, res) {
     },
     function (callback) {
       // Show db page again
-      res.redirect('/db/tools?unique=' + encodeURIComponent(isUnique));
+      res.redirect('/db/tools?unique=' + encodeURIComponent(isUnique) + '&noName=' + encodeURIComponent(noName));
       callback(null);
     }
   ], function(err){
