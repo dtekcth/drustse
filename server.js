@@ -43,7 +43,7 @@ db.once('open', () => { console.log('Database connection open'); });
 app.use('/db/tools', tools);
 
 // Routes
-app.get('/',          (req, res) => { res.render('hem'); {title:'Hem'}});
+app.get('/',          (req, res) => { res.render('hem'), {title:'Hem'}});
 app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
 app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
 app.get('/verktyg',   (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
