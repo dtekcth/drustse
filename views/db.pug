@@ -1,13 +1,32 @@
 extends ./base.pug
 
-block content
-
-    form(action='/db', method='post')
-        input(type='text', name='name', placeholder='...')
+mixin dbForm(action)
+    form(action=action, method='post')
+        input(type='text', name='name', placeholder='Namn')
         br
-        input(type='text', name='amount', placeholder='amt')
-        button(type='submit') Submit
+        input(type='text', name='amount', placeholder='Antal')
+        br
+        button(type='submit') Skicka
 
+block content
+    article
 
-    each v in verktyg
-        p= v
+        .db-form
+            //- For updating tools
+            h1 Update
+            +dbForm('/db/update')
+
+        .db-form
+            //- For creating new tools
+            h1 New
+            +dbForm('/db/new')
+
+        .db-form
+            h1 Remove
+            form(action='/db/remove', method='post')
+                input(type='text', name='name', placeholder='Namn')
+                br
+                button(type='submit') Skicka
+
+        each v in tools
+            p= v

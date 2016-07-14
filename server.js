@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 // Database models
-const Verktyg = require('./verktygModel');
+const Tool = require('./toolModel');
 
 const app = express();
 
@@ -41,6 +41,18 @@ const db = mongoose.connect('mongodb://localhost/verktyg').connection;
 db.on('error', (err) => { console.log(err.message); });
 db.once('open', () => { console.log('Database connection open'); });
 
+// Lookup table for name - id
+let lookupTools = {};
+
+// Fill lookup table with info from database
+Tool.find(function(err, tools){
+  if (err) { console.error(err); }
+
+  for(const tool of tools){
+    lookupTools[tool.name] = tool._id;
+  }
+});
+
 // Routes
 app.get('/',          (req, res) => { res.render('drust'); }); // Placeholder template
 app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
@@ -51,24 +63,70 @@ app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); 
 
 // For testing
 app.get('/db', function(req, res) {
-  Verktyg.find(function(err, v){
+  Tool.find(function(err, tools){
     if (err) { console.error(err); }
-    res.render('db', {verktyg:v});
+
+    res.render('db', {tools:tools});
   });
 });
 
-app.post('/db', function(req, res) {
+// If request to create new item in db
+app.post('/db/new', function(req, res) {
   // Info from form
   const name = req.body.name;
   const amount = req.body.amount;
-  const verktyg = new Verktyg({name: name, amount:amount});
+  const tool = new Tool({name: name, amount:amount});
 
+  lookupTools[name] = tool._id;
   // Save in db
-  verktyg.save((err, v) => { if (err) return console.error(err); });
+  tool.save((err, v) => { if (err) return console.error(err); });
 
   // Show db page again
   res.redirect('/db');
 });
+
+// If request to update item in db
+app.post('/db/update', function(req, res){
+  const name = req.body.name;
+  const amount = req.body.amount;
+  const id = lookupTools[name];
+  
+  Tool.findById(id, function(err, tool){
+    if (err) return console.error(err);
+
+    // Change to requested amount
+    tool.amount = amount;
+
+    // Save in db
+    tool.save((err, v) => { if (err) return console.error(err); });
+  
+    // Show db page again
+    res.redirect('/db');
+  })
+});
+
+app.post('/db/remove', function(req, res){
+  const name = req.body.name;
+  const id = lookupTools[name];
+
+  Tool.findById(id, function(err, tool){
+    if (err) return console.error(err);
+
+    tool.remove(function(err){
+      if (err) return console.error(err);
+
+      console.log('Deleted Tool: ' + tool.name);
+    });
+
+    delete lookupTools[name];
+
+    res.redirect('/db');
+
+  });
+
+  delete lookupTools[name];
+
+} );
 
 // Hidden routes
 app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
