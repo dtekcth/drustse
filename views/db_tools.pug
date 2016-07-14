@@ -8,28 +8,38 @@ mixin dbForm(action)
         br
         button(type='submit') Skicka
 
+block includes
+    script(src='https://code.jquery.com/jquery-3.0.0.js')
+
 block content
     article
 
-        .db-form
+        .tools-form
             //- For updating tools
             h1 Update
-            +dbForm('/db/update')
+            +dbForm('/db/tools/update')
 
-        .db-form
+        .tools-form
             //- For creating new tools
             h1 New
-            +dbForm('/db/new')
+            +dbForm('/db/tools/new')
             unless isUnique
-                //- Placeholder
-                p stop pls
+                #error Finns redan
 
-        .db-form
+        .tools-form
+            //- For removing tools
             h1 Remove
-            form(action='/db/remove', method='post')
+            form(action='/db/tools/remove', method='post')
                 input(type='text', name='name', placeholder='Namn')
                 br
                 button(type='submit') Skicka
 
         each v in tools
             p= v
+
+
+    script.
+        $(document).ready( function() {
+            // Slowly fade out error message
+            $("#error").toggleClass("invisible");
+        });
