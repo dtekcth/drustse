@@ -1,11 +1,13 @@
 extends ./base.pug
 
-mixin dbForm(action)
+mixin dbForm(action, inclAmount)
     form(action=action, method='post')
         input(type='text', name='name', placeholder='Namn')
         br
-        input(type='text', name='amount', placeholder='Antal')
-        br
+        //- Include amount input?
+        if inclAmount
+            input(type='text', name='amount', placeholder='Antal')
+            br
         button(type='submit') Skicka
 
 block includes
@@ -17,20 +19,17 @@ block content
         .tools-form
             //- For updating tools
             h1 Update
-            +dbForm('/db/tools/update')
+            +dbForm('/db/tools/update', true)
 
         .tools-form
             //- For creating new tools
             h1 New
-            +dbForm('/db/tools/new')
+            +dbForm('/db/tools/new', true)
 
         .tools-form
             //- For removing tools
             h1 Remove
-            form(action='/db/tools/remove', method='post')
-                input(type='text', name='name', placeholder='Namn')
-                br
-                button(type='submit') Skicka
+            +dbForm('/db/tools/remove', false)
 
         unless isUnique
             #error Finns redan
