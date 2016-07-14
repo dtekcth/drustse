@@ -55,7 +55,7 @@ Tool.find(function(err, tools){
 });
 
 // Routes
-app.get('/',          (req, res) => { res.render('drust'); }); // Placeholder template
+app.get('/',          (req, res) => { res.render('hem'); {title:'Hem'}});
 app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
 app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
 app.get('/verktyg',   (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
