@@ -20,6 +20,9 @@ block content
             //- For creating new tools
             h1 New
             +dbForm('/db/new')
+            unless isUnique
+                //- Placeholder
+                p stop pls
 
         .db-form
             h1 Remove

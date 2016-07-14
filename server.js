@@ -4,6 +4,7 @@ const sassMiddleware = require('node-sass-middleware');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const async = require('async');
 
 // Database models
 const Tool = require('./toolModel');
@@ -65,8 +66,16 @@ app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); 
 app.get('/db', function(req, res) {
   Tool.find(function(err, tools){
     if (err) { console.error(err); }
+    
+    // Read unique from query
+    let isUnique;
+    if (req.query.unique !== undefined) {
+      isUnique = req.query.unique === 'true';
+    } else {
+      isUnique = true;
+    }
 
-    res.render('db', {tools:tools});
+    res.render('db', {tools:tools,isUnique:isUnique});
   });
 });
 
@@ -78,11 +87,32 @@ app.post('/db/new', function(req, res) {
   const tool = new Tool({name: name, amount:amount});
 
   lookupTools[name] = tool._id;
-  // Save in db
-  tool.save((err, v) => { if (err) return console.error(err); });
 
-  // Show db page again
-  res.redirect('/db');
+  // Is the tool not in db?
+  let isUnique = true;
+
+  // Run save first to update isUnique before it is used in the redirect
+  async.series([
+    function(callback){
+      // Save in db
+      tool.save((err, v) => {
+        if (err) {
+          isUnique = false;
+          callback(null);
+          return console.error(err);
+        } else {
+          callback(null);
+        }
+      });
+    },
+    function (callback) {
+      // Show db page again
+      res.redirect('/db?unique=' + encodeURIComponent(isUnique));
+      callback(null);
+    }
+  ], function(err){
+    if (err) return console.error(err);
+  });
 });
 
 // If request to update item in db
@@ -118,8 +148,10 @@ app.post('/db/remove', function(req, res){
       console.log('Deleted Tool: ' + tool.name);
     });
 
+    // Remove tool from lookup table
     delete lookupTools[name];
-
+    
+    // Show db page again
     res.redirect('/db');
 
   });
