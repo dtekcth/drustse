@@ -13,6 +13,7 @@
     "jade-babel": "^5.0.0",
     "mongoose": "^4.5.4",
     "node-sass-middleware": "^0.9.8",
-    "pug": "^2.0.0-beta3"
+    "pug": "^2.0.0-beta3",
+    "marked": "0.3"
   }
 }

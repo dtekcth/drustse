@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const async = require('async');
 const path = require('path');
+var marked = require('marked');
 
 // Database models
 const Tool = require('./toolModel');
@@ -55,9 +56,21 @@ Tool.find(function(err, tools){
   }
 });
 
+function drustHandler(req, res) {
+  let articles = getArticles();
+
+  if (articles.success) {
+    for (let i = 0; i < articles.payload.length; i++) {
+      articles.payload[i].body = marked(articles.payload[i].body);
+    }
+  }
+
+  res.render('drust', {title:'DRust', articles: articles});
+}
+
 // Routes
-app.get('/',          (req, res) => { res.render('drust', {title:'DRust', articles: getArticles()}); }); // Placeholder template
-app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust', articles: getArticles()}); });
+app.get('/',          drustHandler); // Placeholder template
+app.get('/drust',     drustHandler);
 app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
 app.get('/verktyg',   (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
 app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'}); });
@@ -162,21 +175,17 @@ app.post('/db/remove', function(req, res){
 } );
 
 // Temporary mock-handlers
-
+const articles = [
+  {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden ![john madden](http://www.empiresports.co/wp-content/uploads/2014/04/etick_madden13_576.jpg)'},
+  {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e `hunter2`. no hack pls'},
+  {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum **grande** coche'}
+];
 function getArticles() {
-  return {success: true, payload: [
-    {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum grande coche'},
-    {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e hunter2. no hack pls'},
-    {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden'}
-  ]};
+  return {success: true, payload: articles.reverse()};
 }
 
 function getArticle(id) {
-  switch (id) {
-  case 3: return {success: true, payload: {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum grande coche'}};
-  case 2: return {success: true, payload: {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e hunter2. no hack pls'}};
-  case 1: return {success: true, payload: {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden'}};
-  }
+  return articles[id];
 }
 
 app.get('/db/get/articles', (req, res) => {
