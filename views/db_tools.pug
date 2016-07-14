@@ -23,8 +23,6 @@ block content
             //- For creating new tools
             h1 New
             +dbForm('/db/tools/new')
-            unless isUnique
-                #error Finns redan
 
         .tools-form
             //- For removing tools
@@ -33,6 +31,10 @@ block content
                 input(type='text', name='name', placeholder='Namn')
                 br
                 button(type='submit') Skicka
+
+        unless isUnique
+            #error Finns redan
+
 
         each v in tools
             p= v
