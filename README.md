@@ -3,7 +3,7 @@
 
 ## Setup
 
-1. Install node and npm
+1. Install nodejs and npm
 
 2. Run `npm install`
 
@@ -23,6 +23,8 @@
       title= title
 
   block content
+      article
+          //- Add stuff here
   ```
 3. In server.js add:
   ```javascript
@@ -35,7 +37,7 @@
   $name is the name of the pug file,
   $title is the title you want for the view.
 
-### Javascript in pug files
+### Javascript in script tags
 Example:
 ```javascript    
 script

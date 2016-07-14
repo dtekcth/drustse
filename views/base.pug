@@ -1,28 +1,39 @@
 doctype html
-html
+html(lang='sv')
     head
         block title
-        title DRust
+            title DRust
 
         meta(charset='utf8')
         link(type='text/plain', rel='author' href='/humans.txt')
-
+        link(href='https://fonts.googleapis.com/css?family=Fira+Sans', rel='stylesheet', type='text/css')
         link(rel='stylesheet', href=('/stylesheets/layout.css'))
         script(type='text/javascript', src=('/js/test.js'))
 
         block link
-            -var selected = 'DRust';
+            - var selected;
 
-    -var menu = {'DRust' : '/drust', 'Basen' : '/basen', 'Verktyg' : '/verktyg', 'Automaten' : '/automaten', 'Flipper' : '/flipper'};
+    -
+        var menu = {'DRust' : '/drust',
+                    'Basen' : '/basen',
+                    'Verktyg' : '/verktyg',
+                    'Automaten' : '/automaten',
+                    'Flipper' : '/flipper'};
 
     body
-        nav
-            ul
-                each link, name in menu
-                    li
-                        if name === selected
-                            a.active(href=link)= name
-                        else
-                            a(href=link)= name
+        block banner
+            div#thin-banner
 
-        block content
+        main
+            header
+                block header
+                    a(href="/")
+                        img(src="/images/drust16.png")
+                    nav.site-nav
+                        each link, name in menu
+                            if name === selected
+                                a.active(href=link)= name
+                            else
+                                a(href=link)= name
+
+            block content

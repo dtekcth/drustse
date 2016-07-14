@@ -1,0 +1,13 @@
+extends ./base.pug
+
+block content
+
+    form(action='/db', method='post')
+        input(type='text', name='name', placeholder='...')
+        br
+        input(type='text', name='amount', placeholder='amt')
+        button(type='submit') Submit
+
+
+    each v in verktyg
+        p= v
