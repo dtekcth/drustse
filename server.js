@@ -160,6 +160,24 @@ app.post('/db/remove', function(req, res){
 
 } );
 
+// Temporary mock-handlers
+app.get('/db/get/articles', (req, res) => {
+    res.json({success: true, payload: [
+        {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum grande coche'},
+        {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e hunter2. no hack pls'},
+        {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden'}
+    ]});
+});
+app.get('/db/get/articles/3', (req, res) => {
+    res.json({success: true, payload: {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum grande coche'}});
+});
+app.get('/db/get/articles/2', (req, res) => {
+    res.json({success: true, payload: {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e hunter2. no hack pls'}});
+});
+app.get('/db/get/articles/1', (req, res) => {
+    res.json({success: true, payload: {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden'}});
+});
+
 // Hidden routes
 app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
 app.get('/topsecret', (req, res) => { res.render('topsecret', {title:'Top Secret'}); });
