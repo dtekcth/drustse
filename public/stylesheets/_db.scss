@@ -1,6 +1,36 @@
 
+$error-height : 2rem;
+$error-border-color : firebrick;
+$error-default-color: red;
+
 div.db-form {
   width: 33%;
   display: inline-block;
   vertical-align: top;
+  text-align: center;
+
+  button {
+    margin: 0 auto;
+  }
+
+  #error {
+    background-color: lighten($error-default-color, 10%);
+
+    width: 50%;
+    height: $error-height;
+    line-height: $error-height;
+    margin: auto;
+    margin-top: 1rem;
+
+    border-radius: 5px;
+    border: 2px solid $error-border-color;
+
+    opacity:1;
+    transition: opacity 5s ease-out;
+  }
+
+  #error.invisible {
+      opacity: 0;
+  }
 }
+
