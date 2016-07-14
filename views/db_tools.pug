@@ -38,8 +38,10 @@ block content
             p= v
 
 
-    script.
-        $(document).ready( function() {
-            // Slowly fade out error message
-            $("#error").toggleClass("invisible");
-        });
+    script
+        :babel
+            $(document).ready( function() {
+                // Slowly fade out error message
+                const fadeOutTime = 3000; // Milliseconds
+                $("#error").fadeOut(fadeOutTime);
+            });
