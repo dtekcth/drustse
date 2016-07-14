@@ -4,10 +4,11 @@ const sassMiddleware = require('node-sass-middleware');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const async = require('async');
+
+const tools = require('./db/routes_tools');
 
 // Database models
-const Tool = require('./toolModel');
+const Tool = require('./db/toolModel');
 
 const app = express();
 
@@ -43,16 +44,18 @@ db.on('error', (err) => { console.log(err.message); });
 db.once('open', () => { console.log('Database connection open'); });
 
 // Lookup table for name - id
-let lookupTools = {};
+//let lookupTools = {};
 
 // Fill lookup table with info from database
-Tool.find(function(err, tools){
+/*Tool.find(function(err, tools){
   if (err) { console.error(err); }
 
   for(const tool of tools){
     lookupTools[tool.name] = tool._id;
   }
-});
+});*/
+
+app.use('/db/tools', tools);
 
 // Routes
 app.get('/',          (req, res) => { res.render('hem'); {title:'Hem'}});
@@ -63,7 +66,7 @@ app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'
 app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
 
 // For testing
-app.get('/db/tools/', function(req, res) {
+/*app.get('/db/tools/', function(req, res) {
   Tool.find(function(err, tools){
     if (err) { console.error(err); }
     
@@ -173,7 +176,7 @@ app.post('/db/tools/remove', function(req, res){
 
   delete lookupTools[name];
 
-} );
+} );*/
 
 // Hidden routes
 app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
