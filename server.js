@@ -65,12 +65,12 @@ function drustHandler(req, res) {
     }
   }
 
-  res.render('drust', {title:'DRust', articles: articles});
+  res.render('hem', {title:'Hem', articles: articles});
 }
 
 // Routes
-app.get('/',          drustHandler); // Placeholder template
-app.get('/drust',     drustHandler);
+app.get('/',          drustHandler);
+app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
 app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
 app.get('/verktyg',   (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
 app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'}); });
@@ -80,7 +80,7 @@ app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); 
 app.get('/db', function(req, res) {
   Tool.find(function(err, tools){
     if (err) { console.error(err); }
-    
+
     // Read unique from query
     let isUnique;
     if (req.query.unique !== undefined) {
@@ -134,7 +134,7 @@ app.post('/db/update', function(req, res){
   const name = req.body.name;
   const amount = req.body.amount;
   const id = lookupTools[name];
-  
+
   Tool.findById(id, function(err, tool){
     if (err) return console.error(err);
 
@@ -143,7 +143,7 @@ app.post('/db/update', function(req, res){
 
     // Save in db
     tool.save((err, v) => { if (err) return console.error(err); });
-  
+
     // Show db page again
     res.redirect('/db');
   })
@@ -164,7 +164,7 @@ app.post('/db/remove', function(req, res){
 
     // Remove tool from lookup table
     delete lookupTools[name];
-    
+
     // Show db page again
     res.redirect('/db');
 

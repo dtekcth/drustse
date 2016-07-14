@@ -1,0 +1,33 @@
+extends ./base.pug
+
+block title
+    title= title
+
+block link
+    -var selected = 'Hem';
+
+block banner
+    div#big-banner
+        div.title-bar
+            b Datateknologsektionens
+            img(src="/images/drust16.png")
+            b Rustmästeri
+
+block header
+    nav.site-nav
+        each link, name in menu
+            if name === selected
+                a.active(href=link)= name
+            else
+                a(href=link)= name
+
+block content
+    if articles.success
+        each art in articles.payload
+            article.news-article
+                header
+                    .wrapper
+                        h2= art.title
+                        time= art.posted
+
+                .body !{art.body}
