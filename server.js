@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 app.set('view engine', 'pug');
 
 // Database stuff
-const db = mongoose.connect('mongodb://localhost/verktyg').connection;
+const db = mongoose.connect('mongodb://localhost/db').connection;
 
 db.on('error', (err) => { console.log(err.message); });
 db.once('open', () => { console.log('Database connection open'); });
@@ -63,7 +63,8 @@ app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'
 app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
 
 // For testing
-app.get('/db', function(req, res) {
+//TODO: Make admin page (/db -> /admin) and link to all subdirectories (ex /admin/tools) for db work
+app.get('/db/tools/', function(req, res) {
   Tool.find(function(err, tools){
     if (err) { console.error(err); }
     
@@ -75,12 +76,12 @@ app.get('/db', function(req, res) {
       isUnique = true;
     }
 
-    res.render('db', {tools:tools,isUnique:isUnique});
+    res.render('db_tools', {tools:tools,isUnique:isUnique});
   });
 });
 
 // If request to create new item in db
-app.post('/db/new', function(req, res) {
+app.post('/db/tools/new', function(req, res) {
   // Info from form
   const name = req.body.name;
   const amount = req.body.amount;
@@ -107,7 +108,7 @@ app.post('/db/new', function(req, res) {
     },
     function (callback) {
       // Show db page again
-      res.redirect('/db?unique=' + encodeURIComponent(isUnique));
+      res.redirect('/db/tools?unique=' + encodeURIComponent(isUnique));
       callback(null);
     }
   ], function(err){
@@ -116,7 +117,7 @@ app.post('/db/new', function(req, res) {
 });
 
 // If request to update item in db
-app.post('/db/update', function(req, res){
+app.post('/db/tools/update', function(req, res){
   const name = req.body.name;
   const amount = req.body.amount;
   const id = lookupTools[name];
@@ -131,11 +132,11 @@ app.post('/db/update', function(req, res){
     tool.save((err, v) => { if (err) return console.error(err); });
   
     // Show db page again
-    res.redirect('/db');
+    res.redirect('/db/tools');
   })
 });
 
-app.post('/db/remove', function(req, res){
+app.post('/db/tools/remove', function(req, res){
   const name = req.body.name;
   const id = lookupTools[name];
 
@@ -152,7 +153,7 @@ app.post('/db/remove', function(req, res){
     delete lookupTools[name];
     
     // Show db page again
-    res.redirect('/db');
+    res.redirect('/db/tools');
 
   });
 
