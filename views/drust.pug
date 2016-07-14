@@ -22,19 +22,12 @@ block header
                 a(href=link)= name
 
 block content
-    article.news-article
-        header
-            .wrapper
-                h2 Nyhet om DRust eller liknande
-                time 2069-13-37 04:20
+    if articles.success
+        each art in articles.payload
+            article.news-article
+                header
+                    .wrapper
+                        h2= art.title
+                        time= art.posted
 
-        .body
-            p Lorem ipsum dolor sit amet, sit tota recusabo ullamcorper in, ne facilisi mediocrem vim. Mea cu iusto mundi, doming adipisci consulatu te vel, ex constituto deseruisse eum. Sit ex mutat forensibus efficiantur, et has atqui animal. Ei stet simul meliore has, nam idque vitae contentiones ut. Ea viderer accusamus deseruisse est, fabellas conclusionemque ad ius. Has porro putent ei, usu feugait inimicus omittantur no.
-
-            p Eum debet dicunt labores ex, sea ne error adipisci ullamcorper. An vix tota vocibus phaedrum. An agam paulo signiferumque nec. Cum cu ignota volumus pericula, modus elitr zril id usu. Nam ad malis viderer admodum.
-
-            p At eum cibo conclusionemque, ipsum accusam lucilius ex eos, accumsan efficiendi definitiones nec ut. Aeterno assueverit sed et. Eum ex idque facer deseruisse, id his nisl accusata elaboraret. Commune pertinax nec ex, dicunt comprehensam et his. Ut duo assum dicunt.
-
-            p Vel prompta epicuri patrioque an, ei abhorreant adipiscing usu. Mel no dignissim suscipiantur, id mel novum ridens, eu quod iriure senserit vix. Eam ea agam congue vocent, cu sed dicta comprehensam. Et sea tale magna, ei ceteros docendi duo. Ea sale referrentur sea, vel falli veniam utamur ei, integre detracto detraxit mei ei.
-
-            p Cum an singulis neglegentur ullamcorper. Accusamus ullamcorper per in, tollit animal qui in. Mea eu iusto elitr molestiae, cum id vidit omittam signiferumque. Mucius saperet urbanitas no per.
+                .body= art.body

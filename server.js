@@ -56,8 +56,8 @@ Tool.find(function(err, tools){
 });
 
 // Routes
-app.get('/',          (req, res) => { res.render('drust'); }); // Placeholder template
-app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
+app.get('/',          (req, res) => { res.render('drust', {title:'DRust', articles: getArticles()}); }); // Placeholder template
+app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust', articles: getArticles()}); });
 app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
 app.get('/verktyg',   (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
 app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'}); });
