@@ -12,18 +12,20 @@ div.tools-form {
   button {
     margin: 0 auto;
   }
-
-  #error {
-    background-color: lighten($error-default-color, 10%);
-
-    width: 50%;
-    height: $error-height;
-    line-height: $error-height;
-    margin: auto;
-    margin-top: 1rem;
-
-    border-radius: 5px;
-    border: 2px solid $error-border-color;
-  }
 }
+
+#error {
+  background-color: lighten($error-default-color, 10%);
+  text-align: center;
+
+  width: 50%;
+  height: $error-height;
+  line-height: $error-height;
+  margin: auto;
+  margin-top: 1rem;
+
+  border-radius: 5px;
+  border: 2px solid $error-border-color;
+}
+
 
