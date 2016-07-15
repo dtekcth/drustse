@@ -4,8 +4,10 @@ const sassMiddleware = require('node-sass-middleware');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const marked = require('marked');
 const tools = require('./db/routes_tools');
+const articles = require('./db/routes_articles');
+const NewsArticle = require('./db/newsArticleModel.js');
 
 const app = express();
 
@@ -41,9 +43,31 @@ db.on('error', (err) => { console.log(err.message); });
 db.once('open', () => { console.log('Database connection open'); });
 
 app.use('/db/tools', tools);
+app.use('/db/articles', articles);
+
+// Handler for root that displays news articles
+function homeHandler(req, res) {
+  NewsArticle.find({}, null, { sort: { posted: 'desc' }}, function(err, articles){
+    if (err) {
+      console.error(err);
+
+      res.render('hem', { title: 'Hem', articles: { success: false }});
+    } else {
+      for (let i = 0; i < articles.length; i++) {
+        // article.body is some king of buffer and must be cast to String
+        // before `marked` can parse it
+        let body = String(articles[i].body);
+
+        articles[i].body = marked(body);
+      }
+
+      res.render('hem', { title: 'Hem', articles: { success: true, payload: articles }});
+    }
+  });
+}
 
 // Routes
-app.get('/',          (req, res) => { res.render('hem'), {title:'Hem'}});
+app.get('/',          homeHandler);
 app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
 app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
 app.get('/verktyg',   (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
