@@ -1,0 +1,22 @@
+extends ./base.pug
+
+block content
+    article
+        if success
+            if payload.modify
+                form#edit-form(action='/db/articles/update', method='post')
+                    input(type='hidden', name='id', value=String(payload.article._id))
+                    input(type='text', name='title', value=payload.article.title)
+                    br
+                    textarea(form='edit-form', name='body')= payload.article.body
+                    br
+                    button(type='submit') Skicka
+            else
+                form#edit-form(action='/db/articles/new', method='post')
+                    input(type='text', name='title', placeholder='Titel')
+                    br
+                    textarea(form='edit-form', name='body')
+                    br
+                    button(type='submit') Skicka
+        else
+            h2 Database failure

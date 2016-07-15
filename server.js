@@ -6,10 +6,12 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const async = require('async');
 const path = require('path');
-var marked = require('marked');
+const marked = require('marked');
+const dateFormat = require('dateformat');
 
 // Database models
 const Tool = require('./toolModel');
+const NewsArticle = require('./newsArticleModel');
 
 const app = express();
 
@@ -57,15 +59,25 @@ Tool.find(function(err, tools){
 });
 
 function drustHandler(req, res) {
-  let articles = getArticles();
+  NewsArticle.find({}, null, { sort: { posted: 'desc' }}, function(err, articles){
+    if (err) {
+      console.error(err);
 
-  if (articles.success) {
-    for (let i = 0; i < articles.payload.length; i++) {
-      articles.payload[i].body = marked(articles.payload[i].body);
+      res.render('hem', { title: 'Hem', articles: { success: false }});
+    } else {
+      for (let i = 0; i < articles.length; i++) {
+        console.log(articles[i]);
+
+        // article.body is some king of buffer and must be cast to String
+        // before `marked` can parse it
+        let body = String(articles[i].body);
+
+        articles[i].body = marked(body);
+      }
+
+      res.render('hem', { title: 'Hem', articles: { success: true, payload: articles }});
     }
-  }
-
-  res.render('hem', {title:'Hem', articles: articles});
+  });
 }
 
 // Routes
@@ -168,38 +180,114 @@ app.post('/db/tools/remove', function(req, res){
 
     // Show db page again
     res.redirect('/db/tools');
-
   });
 
   delete lookupTools[name];
-
 } );
 
-// Temporary mock-handlers
-const articles = [
-  {id: 1, title: 'John Madden', posted: '2016-02-04 09:15', body: 'john madden john madden john madden ![john madden](http://www.empiresports.co/wp-content/uploads/2014/04/etick_madden13_576.jpg)'},
-  {id: 2, title: 'abc 123', posted: '2016-06-17 12:00', body: 'mitt pass e `hunter2`. no hack pls'},
-  {id: 3, title: 'Wow vilken titel!', posted: '2016-08-23 05:22', body: 'lorem ipsum **grande** coche'}
-];
-function getArticles() {
-  return {success: true, payload: articles.reverse()};
-}
+// Handlers for managing news articles in the db
 
-function getArticle(id) {
-  return articles[id];
-}
-
-app.get('/db/get/articles', (req, res) => {
-  res.json(getArticles());
+// Handle listing the existing articles
+app.get('/db/articles', function(req, res) {
+  NewsArticle.find({}, null, { sort: { posted: 'desc' }}, function(err, articles){
+    if (err) {
+      console.error(err);
+      res.render('db_articles', { success: false });
+    } else {
+      res.render('db_articles', { success: true, payload: articles });
+    }
+  });
 });
-app.get('/db/get/articles/*', (req, res) => {
-  let id = Number(path.basename(req.path));
 
-  if (id !== NaN) {
-    res.json(getArticle(id));
-  } else {
-    res.json({success: false});
-  }
+// Handle request to create new article
+app.post('/db/articles/new', function(req, res) {
+  // Info from form
+  const title = req.body.title;
+  const body = req.body.body;
+  const time = dateFormat(new Date(), "yyyy-mm-dd HH:MM");
+  const article = new NewsArticle({ posted: time, title: title, body: body });
+
+  article.save((err, v) => {
+    if (err) {
+      console.error(err);
+
+      res.json({ success: false });
+    } else {
+      res.json({ success: true });
+    }
+  });
+});
+
+// Handle request to update article
+app.post('/db/articles/update', function(req, res) {
+  const id = req.body.id;
+  const title = req.body.title;
+  const body = req.body.body;
+
+  NewsArticle.findById(id, function(err, article) {
+    if (err) {
+      console.error(err);
+      res.json({ success: false });
+    } else {
+      article.title = title;
+      article.body = body;
+
+      article.save((err, v) => {
+        if (err) {
+          console.error(err);
+          res.json({ success: false });
+        } else {
+          res.json({ success: true });
+        }})
+    }
+  })
+});
+
+// Handle request to remove article
+app.post('/db/articles/remove', function(req, res) {
+  const id = req.body.id;
+
+  NewsArticle.findById(id, function(err, article) {
+    if (err) {
+      console.error(err);
+      res.json({ success: false })
+    } else {
+      article.remove(function(err) {
+        if (err) {
+          console.error(err);
+          res.json({ success: false });
+        } else {
+          res.json({ success: true });
+        }
+      });
+    }
+  });
+});
+
+// Handle writing a new article
+app.get('/db/articles/edit', function(req, res) {
+  // Not modifying an existing article, but rather writing a new one
+  let data = { success: true, payload: { modify: false }};
+
+  res.render('db_articles_editor', data);
+});
+
+// Handle editing an existing article;
+app.get('/db/articles/edit/*', function(req, res) {
+  let id = path.basename(req.path);
+
+  NewsArticle.findById(id, function(err, article){
+    if (err) {
+      console.error(err);
+      res.render('db_articles_editor', { success: false });
+    } else {
+      // Modifying an existing article
+      let data = { success: true, payload: { modify: true, article: article }};
+      console.log("data: " + data);
+
+      res.render('db_articles_editor', data);
+    }
+  });
 });
 
 // Hidden routes
