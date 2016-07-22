@@ -1,0 +1,13 @@
+extends ./base.pug
+
+block content
+    article
+        a(href="/db/articles/edit")
+            h2 Skapa ny artikel
+        ul
+            if success
+                each art in payload
+                    a(href="/db/articles/edit/" + art._id)
+                        li
+                            h2= art.title
+                            time= art.posted

@@ -22,7 +22,7 @@ let isUnique = true;
 // Did the user forget to type a name?
 let noName = false;
 
-// For testing
+
 router.get('/', function(req, res) {
     Tool.find(function(err, tools){
         if (err) { console.error(err); }

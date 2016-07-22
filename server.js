@@ -4,11 +4,10 @@ const sassMiddleware = require('node-sass-middleware');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const marked = require('marked');
 const tools = require('./db/routes_tools');
-
-// Database models
-const Tool = require('./db/toolModel');
+const articles = require('./db/routes_articles');
+const NewsArticle = require('./db/newsArticleModel.js');
 
 const app = express();
 
@@ -43,140 +42,37 @@ const db = mongoose.connect('mongodb://localhost/db').connection;
 db.on('error', (err) => { console.log(err.message); });
 db.once('open', () => { console.log('Database connection open'); });
 
-// Lookup table for name - id
-//let lookupTools = {};
-
-// Fill lookup table with info from database
-/*Tool.find(function(err, tools){
-  if (err) { console.error(err); }
-
-  for(const tool of tools){
-    lookupTools[tool.name] = tool._id;
-  }
-});*/
-
 app.use('/db/tools', tools);
+app.use('/db/articles', articles);
+
+// Handler for root that displays news articles
+function homeHandler(req, res) {
+  NewsArticle.find({}, null, { sort: { posted: 'desc' }}, function(err, articles){
+    if (err) {
+      console.error(err);
+
+      res.render('hem', { title: 'Hem', articles: { success: false }});
+    } else {
+      for (let i = 0; i < articles.length; i++) {
+        // article.body is some king of buffer and must be cast to String
+        // before `marked` can parse it
+        let body = String(articles[i].body);
+
+        articles[i].body = marked(body);
+      }
+
+      res.render('hem', { title: 'Hem', articles: { success: true, payload: articles }});
+    }
+  });
+}
 
 // Routes
-app.get('/',          (req, res) => { res.render('hem'); {title:'Hem'}});
+app.get('/',          homeHandler);
 app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
 app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
 app.get('/verktyg',   (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
 app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'}); });
 app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
-
-// For testing
-/*app.get('/db/tools/', function(req, res) {
-  Tool.find(function(err, tools){
-    if (err) { console.error(err); }
-    
-    // Read unique from query
-    let isUnique;
-    if (req.query.unique !== undefined) {
-      isUnique = req.query.unique === 'true';
-    } else {
-      isUnique = true;
-    }
-
-    // Read noName from query
-    let noName;
-    if (req.query.noName !== undefined) {
-      noName = req.query.noName === 'false';
-    } else {
-      noName = false;
-    }
-
-    res.render('db_tools', {tools:tools,isUnique:isUnique, noName:noName});
-  });
-});
-
-// If request to create new item in db
-app.post('/db/tools/new', function(req, res) {
-  // Info from form
-  const name = req.body.name;
-  const amount = req.body.amount;
-  const tool = new Tool({name: name, amount:amount});
-
-  lookupTools[name] = tool._id;
-
-  // Is the tool not in db?
-  let isUnique = true;
-
-  // Did the user forget to type a name?
-  let noName = false;
-
-  // Run save first to update isUnique before it is used in the redirect
-  async.series([
-    function(callback){
-      // Save in db
-      tool.save((err, v) => {
-        if (err) {
-          if (err.name === 'MongoError') {
-            isUnique = false;
-          } else if (err.name === 'ValidatorError' && err.kind === 'required'){
-            noName = true;
-          }
-          callback(null);
-          return console.error(err);
-        } else {
-          callback(null);
-        }
-      });
-    },
-    function (callback) {
-      // Show db page again
-      res.redirect('/db/tools?unique=' + encodeURIComponent(isUnique) + '&noName=' + encodeURIComponent(noName));
-      callback(null);
-    }
-  ], function(err){
-    if (err) return console.error(err);
-  });
-});
-
-// If request to update item in db
-app.post('/db/tools/update', function(req, res){
-  const name = req.body.name;
-  const amount = req.body.amount;
-  const id = lookupTools[name];
-  
-  Tool.findById(id, function(err, tool){
-    if (err) return console.error(err);
-
-    // Change to requested amount
-    tool.amount = amount;
-
-    // Save in db
-    tool.save((err, v) => { if (err) return console.error(err); });
-  
-    // Show db page again
-    res.redirect('/db/tools');
-  })
-});
-
-app.post('/db/tools/remove', function(req, res){
-  const name = req.body.name;
-  const id = lookupTools[name];
-
-  Tool.findById(id, function(err, tool){
-    if (err) return console.error(err);
-
-    tool.remove(function(err){
-      if (err) return console.error(err);
-
-      console.log('Deleted Tool: ' + tool.name);
-    });
-
-    // Remove tool from lookup table
-    delete lookupTools[name];
-    
-    // Show db page again
-    res.redirect('/db/tools');
-
-  });
-
-  delete lookupTools[name];
-
-} );*/
 
 // Hidden routes
 app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
