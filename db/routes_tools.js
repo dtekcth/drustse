@@ -35,8 +35,12 @@ router.get('/', function(req, res) {
 router.post('/new', function(req, res) {
     // Info from form
     const name = req.body.name;
-    const amount = req.body.amount;
+    let amount = req.body.amount;
     const tool = new Tool({name: name, amount:amount});
+
+    if (amount == null){ // If an amount is not specified in the form
+        amount = 0;
+    }
 
     lookupTools[name] = tool._id;
 
