@@ -55,6 +55,7 @@ router.post('/new', function(req, res) {
                     return console.error(err);
                 } else {
                     callback(null);
+                    console.log('Added Tool: ' + tool.name);
                 }
             });
         },
@@ -81,7 +82,11 @@ router.post('/update', function(req, res){
         tool.amount = amount;
 
         // Save in db
-        tool.save((err, v) => { if (err) return console.error(err); });
+        tool.save((err, v) => {
+            if (err) return console.error(err);
+
+            console.log('Updated Tool: ' + tool.name);
+        });
 
         // Show db page again
         res.redirect('/db/tools');
