@@ -35,8 +35,12 @@ router.get('/', function(req, res) {
 router.post('/new', function(req, res) {
     // Info from form
     const name = req.body.name;
-    const amount = req.body.amount;
+    let amount = req.body.amount;
     const tool = new Tool({name: name, amount:amount});
+
+    if (amount == null){ // If an amount is not specified in the form
+        amount = 0;
+    }
 
     lookupTools[name] = tool._id;
 
@@ -55,6 +59,7 @@ router.post('/new', function(req, res) {
                     return console.error(err);
                 } else {
                     callback(null);
+                    console.log('Added Tool: ' + tool.name);
                 }
             });
         },
@@ -81,7 +86,11 @@ router.post('/update', function(req, res){
         tool.amount = amount;
 
         // Save in db
-        tool.save((err, v) => { if (err) return console.error(err); });
+        tool.save((err, v) => {
+            if (err) return console.error(err);
+
+            console.log('Updated Tool: ' + tool.name);
+        });
 
         // Show db page again
         res.redirect('/db/tools');

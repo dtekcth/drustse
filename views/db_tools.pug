@@ -1,15 +1,5 @@
 extends ./base.pug
 
-mixin dbForm(action, inclAmount)
-    form(action=action, method='post')
-        input(type='text', name='name', placeholder='Namn')
-        br
-        //- Include amount input?
-        if inclAmount
-            input(type='text', name='amount', placeholder='Antal')
-            br
-        button(type='submit') Skicka
-
 block includes
     script(src='https://code.jquery.com/jquery-3.0.0.js')
 
@@ -19,17 +9,37 @@ block content
         .tools-form
             //- For updating tools
             h1 Update
-            +dbForm('/db/tools/update', true)
+
+            form(action='/db/tools/update', method='post')
+                select(name='name')
+                    each v in tools
+                        option(value=v.name)= v.name
+                br
+                input(type='text', name='amount', placeholder='Antal')
+                br
+                button(type='submit') Skicka
 
         .tools-form
             //- For creating new tools
             h1 New
-            +dbForm('/db/tools/new', true)
+
+            form(action='/db/tools/new', method='post')
+                input(type='text', name='name', placeholder='Namn')
+                br
+                input(type='text', name='amount', placeholder='Antal')
+                br
+                button(type='submit') Skicka
 
         .tools-form
             //- For removing tools
             h1 Remove
-            +dbForm('/db/tools/remove', false)
+
+            form(action='/db/tools/remove', method='post')
+                select(name='name')
+                    each v in tools
+                        option(value=v.name)= v.name
+                br
+                button(type='submit') Skicka
 
         unless isUnique
             #error Finns redan
@@ -37,7 +47,7 @@ block content
         if noName
             #error Du angav inget namn
 
-
+        //- For testing purposes
         each v in tools
             p= v
 
