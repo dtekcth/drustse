@@ -4,10 +4,12 @@ const sassMiddleware = require('node-sass-middleware');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const marked = require('marked');
 const tools = require('./db/routes_tools');
 const articles = require('./db/routes_articles');
 const NewsArticle = require('./db/newsArticleModel.js');
+const userManagement = require('./userManagement.js');
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.use(sassMiddleware({
   dest:__dirname + "/public",
   debug: debugMode
 }));
+
+app.use(cookieParser());
 
 app.use(express.static('public'));
 
@@ -75,6 +79,9 @@ app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'
 app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
 
 // Hidden routes
+app.get('/admin',     userManagement.adminHandler);
+app.get('/login',     userManagement.loginGetHandler);
+app.post('/login',    userManagement.loginPostHandler);
 app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
 app.get('/topsecret', (req, res) => { res.render('topsecret', {title:'Top Secret'}); });
 
