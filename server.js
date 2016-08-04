@@ -8,8 +8,8 @@ const cookieParser = require('cookie-parser');
 const marked = require('marked');
 const tools = require('./db/routes_tools');
 const articles = require('./db/routes_articles');
+const admin = require('./admin');
 const NewsArticle = require('./db/newsArticleModel.js');
-const userManagement = require('./userManagement.js');
 
 const app = express();
 
@@ -48,6 +48,7 @@ db.once('open', () => { console.log('Database connection open'); });
 
 app.use('/db/tools', tools);
 app.use('/db/articles', articles);
+app.use('/admin', admin.router);
 
 // Handler for root that displays news articles
 function homeHandler(req, res) {
@@ -79,9 +80,6 @@ app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'
 app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
 
 // Hidden routes
-app.get('/admin',     userManagement.adminHandler);
-app.get('/login',     userManagement.loginGetHandler);
-app.post('/login',    userManagement.loginPostHandler);
 app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
 app.get('/topsecret', (req, res) => { res.render('topsecret', {title:'Top Secret'}); });
 

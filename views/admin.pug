@@ -3,7 +3,108 @@ extends ./base.pug
 block title
     title= title
 
+block includes
+    script(type='text/javascript').
+        function submitToolForm(form) {
+            submitFormAsync(form, (resp) => {
+                let result = JSON.parse(resp);
+                if (result.success) {
+                    alert("Succé!");
+                    window.location.reload();
+                } else {
+                    alert("Tool error: " + result.error);
+                }
+            });
+        }
+
+        function submitNew() {
+            let form = document.getElementById('new-form');
+            let name = document.getElementById('new-name');
+            let amount = document.getElementById('new-amount');
+
+            form.addEventListener("click", function(event){
+                event.preventDefault()
+            });
+
+            if (!name.value) {
+                alert("Namn obligatoriskt");
+            } else if (!amount.value) {
+                alert("Antal obligatoriskt");
+            } else {
+                submitToolForm(form);
+            }
+        }
+
+        function submitUpdate(id) {
+            let form = document.getElementById('update-'+id);
+            let amount = document.getElementById('amount-'+id);
+
+            form.addEventListener("click", function(event){
+                event.preventDefault()
+            });
+
+            if (!amount.value) {
+                alert("Antal obligatoriskt");
+            } else {
+                submitToolForm(form);
+            }
+        }
+
+        function submitRemove(id) {
+            let form = document.getElementById('remove-'+id);
+
+            form.addEventListener("click", function(event){
+                event.preventDefault()
+            });
+
+            submitToolForm(form);
+        }
+
 block content
     article
-        header
-           hax
+        h1 Admin
+
+        p Här finnes konfiguration och verktyg för administratörer.
+
+    article
+        h1 Artiklar
+
+        h2
+            a(href="/admin/editor").
+                Skapa ny artikel
+        table.center
+            each art in articles
+                tr
+                    td
+                        a(href="/admin/editor/" + art._id)
+                            b= art.title
+                    td
+                        time= art.posted
+
+    article
+        h1 Verktyg
+
+        .tools-form.center
+            //- For creating new tools
+            h1 Skapa
+
+            form#new-form(action='/db/tools/new', method='post')
+                input#new-name(type='text', name='name', placeholder='Namn')
+                br
+                input#new-amount(type='number', step='1', name='amount', placeholder='Antal')
+                br
+                button(type='submit', onclick='submitNew()') Skicka
+
+        table.center
+            each tool in tools
+                tr
+                    td= tool.name
+                    td
+                        form(id='update-'+tool._id, action='/db/tools/update', method='post')
+                            input(type='hidden', name='id', value=tool._id)
+                            input(id='amount-'+tool._id, type='number', step='1', name='amount', value=tool.amount)
+                            input(type='submit', value='Uppdatera', onclick='submitUpdate("'+tool._id+'")')
+                    td
+                        form(id='remove-'+tool._id, action='/db/tools/remove', method='post')
+                            input(type='hidden', name='id', value=tool._id)
+                            input(type='submit', value='Ta bort', onclick='submitRemove("'+tool._id+'")')

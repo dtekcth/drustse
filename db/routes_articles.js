@@ -1,6 +1,7 @@
 const path = require('path');
 const dateFormat = require('dateformat');
 const router = require('express').Router();
+const admin = require('../admin');
 
 const NewsArticle = require('./newsArticleModel.js');
 
@@ -16,94 +17,94 @@ router.get('/', function(req, res) {
   });
 });
 
+// Helper function for article management. Responds that action is unauthorized
+function unauthorized(res) {
+  return () => res.json({ success: false, error: "Unauthorized action" });
+}
+
 // Handle request to create new article
 router.post('/new', function(req, res) {
-  // Info from form
-  const title = req.body.title;
-  const body = req.body.body;
-  const time = dateFormat(new Date(), "yyyy-mm-dd HH:MM");
-  const article = new NewsArticle({ posted: time, title: title, body: body });
+  function newArticle(session) {
+    // Info from form
+    const title = req.body.title;
+    const body = req.body.body;
+    const time = dateFormat(new Date(), "yyyy-mm-dd HH:MM");
+    const article = new NewsArticle({ posted: time, title: title, body: body });
 
-  article.save((err, v) => {
-    if (err) {
-      console.error(err);
-
-      res.json({ success: false });
+    if (!title) {
+      res.json({ success: false, error: "Missing title" })
     } else {
-      res.json({ success: true });
+      article.save((err, v) => {
+        if (err) {
+          console.error(err);
+
+          res.json({ success: false, error: "Database error" });
+        } else {
+          res.json({ success: true, articleId: v._id });
+        }
+      });
     }
-  });
+  }
+
+  admin.validateSession(req, res, newArticle, unauthorized(res));
 });
 
 // Handle request to update article
 router.post('/update', function(req, res) {
-  const id = req.body.id;
-  const title = req.body.title;
-  const body = req.body.body;
+  function updateArticle(session) {
+    const id = req.body.id;
+    const title = req.body.title;
+    const body = req.body.body;
 
-  NewsArticle.findById(id, function(err, article) {
-    if (err) {
-      console.error(err);
-      res.json({ success: false });
+    if (!title) {
+      res.json({ success: false, error: "Missing title" })
     } else {
-      article.title = title;
-      article.body = body;
-
-      article.save((err, v) => {
+      NewsArticle.findById(id, function(err, article) {
         if (err) {
           console.error(err);
-          res.json({ success: false });
+          res.json({ success: false, error: "Inexistant article " + id });
         } else {
-          res.json({ success: true });
-        }})
+          article.title = title;
+          article.body = body;
+
+          article.save((err, v) => {
+            if (err) {
+              console.error(err);
+              res.json({ success: false, error: "Database error" });
+            } else {
+              res.json({ success: true, articleId: v._id });
+            }})
+        }
+      });
     }
-  })
+  }
+
+  admin.validateSession(req, res, updateArticle, unauthorized(res));
 });
 
 // Handle request to remove article
 router.post('/remove', function(req, res) {
-  const id = req.body.id;
+  function removeArticle(session) {
+    const id = req.body.id;
 
-  NewsArticle.findById(id, function(err, article) {
-    if (err) {
-      console.error(err);
-      res.json({ success: false })
-    } else {
-      article.remove(function(err) {
-        if (err) {
-          console.error(err);
-          res.json({ success: false });
-        } else {
-          res.json({ success: true });
-        }
-      });
-    }
-  });
-});
+    NewsArticle.findById(id, function(err, article) {
+      if (!article || err) {
+        console.error(err);
+        res.json({ success: false, error: "Inexistant article " + id })
+      } else {
+        article.remove(function(err) {
+          if (err) {
+            console.error(err);
+            res.json({ success: false, error: "Database error" });
+          } else {
+            res.json({ success: true });
+          }
+        });
+      }
+    });
+  }
 
-// Handle writing a new article
-router.get('/edit', function(req, res) {
-  // Not modifying an existing article, but rather writing a new one
-  let data = { success: true, payload: { modify: false }};
-
-  res.render('db_articles_editor', data);
-});
-
-// Handle editing an existing article;
-router.get('/edit/*', function(req, res) {
-  let id = path.basename(req.path);
-
-  NewsArticle.findById(id, function(err, article){
-    if (err) {
-      console.error(err);
-      res.render('db_articles_editor', { success: false });
-    } else {
-      // Modifying an existing article
-      let data = { success: true, payload: { modify: true, article: article }};
-
-      res.render('db_articles_editor', data);
-    }
-  });
+  admin.validateSession(req, res, removeArticle, unauthorized(res));
 });
 
 module.exports = router;

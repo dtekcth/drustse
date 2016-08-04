@@ -7,6 +7,7 @@ const User = require('./db/userModel.js');
 
 const salt = 'der bedste salten ind das heile eurobe';
 
+// FIXME: MUST be removed before production
 User.count({ username: 'admin' }, (err, count) => {
   if (count == 0) {
     bcrypt.hash('abc123', salt, (err, hash) => {
@@ -14,49 +15,6 @@ User.count({ username: 'admin' }, (err, count) => {
     });
   }
 });
-
-// Handler for admin page. Verify login-cookie if present, else present login-prompt.
-function adminHandler(req, res) {
-  let session_id = req.cookies.session_id;
-
-  if (session_id != null) {
-    Session.findOne({ session_id: session_id }, (err, session) => {
-      if (err) {
-        console.error(err);
-
-        res.render('login', { title: 'Login',
-                              tried: true,
-                              success: false,
-                              err: 'Invalid session id' });
-      } else if (session == null) {
-        res.render('login', { title: 'Login',
-                              tried: false,
-                              redirect: '/admin' });
-      } else {
-        if (session.token === req.cookies.session_token) {
-          res.render('admin', {
-            title: 'Admin',
-          });
-        } else {
-          Session.remove({ session_id: session_id }).exec();
-
-          res.render('login', {
-            title: 'Login',
-            tried: true,
-            success: false,
-            err: 'Token in DB differs from token in cookie. You may have been hacked!'
-          });
-        }
-      }
-    });
-  } else {
-    // No login cookie. Present login prompt
-
-    res.render('login', { title: 'Login',
-                          tried: false,
-                          redirect: '/admin' });
-  }
-}
 
 // Handler for admin login. Verify login-data if present, otherwise present login-prompt
 function loginGetHandler(req, res) {
@@ -107,6 +65,5 @@ function loginPostHandler(req, res) {
   });
 }
 
-module.exports = { adminHandler: adminHandler,
-                   loginGetHandler: loginGetHandler,
+module.exports = { loginGetHandler: loginGetHandler,
                    loginPostHandler: loginPostHandler };

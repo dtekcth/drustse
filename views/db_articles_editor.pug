@@ -1,22 +1,82 @@
 extends ./base.pug
 
+block includes
+    script(type='text/javascript').
+        function submitArticleForm(form) {
+            submitFormAsync(form, (resp) => {
+                let result = JSON.parse(resp);
+                if (result.success) {
+                    window.location.href = "/#article-" + result.articleId;
+                } else {
+                    alert("Error saving article: " + result.error);
+                }
+            });
+        }
+
+        function submitEditForm() {
+            let form = document.getElementById('edit-form');
+            let articleId = document.getElementById('edit-id');
+            let title = document.getElementById('edit-title');
+
+            form.addEventListener("click", function(event){
+                event.preventDefault()
+            });
+
+            if (!title.value) {
+                alert("Titel obligatorisk");
+            } else if (!articleId.value) {
+                alert("Artikel-id obligatoriskt vid redigering av existerande artikel");
+            } else {
+                submitArticleForm(form);
+            }
+        }
+
+        function submitWriteForm() {
+            let form = document.getElementById('write-form');
+            let title = document.getElementById('write-title');
+
+            form.addEventListener("click", function(event){
+                event.preventDefault()
+            });
+
+            if (!title.value) {
+                alert("Titel obligatorisk");
+            } else {
+                submitArticleForm(form);
+            }
+        }
+
+        function submitRemoveForm() {
+            let form = document.getElementById('remove-form');
+
+            form.addEventListener("click", function(event){
+                event.preventDefault()
+            });
+
+            submitFormAsync(form, (resp) => {
+               window.location.href = '/';
+            });
+        }
+
+
 block content
     article
-        if success
-            if payload.modify
-                form#edit-form(action='/db/articles/update', method='post')
-                    input(type='hidden', name='id', value=String(payload.article._id))
-                    input(type='text', name='title', value=payload.article.title)
-                    br
-                    textarea(form='edit-form', name='body')= payload.article.body
-                    br
-                    button(type='submit') Skicka
-            else
-                form#edit-form(action='/db/articles/new', method='post')
-                    input(type='text', name='title', placeholder='Titel')
-                    br
-                    textarea(form='edit-form', name='body')
-                    br
-                    button(type='submit') Skicka
+        if modify
+            form#edit-form(action='/db/articles/update', method='post')
+                input#edit-id(type='hidden', name='id', value=String(article._id))
+                input#edit-title.title(type='text', name='title', value=article.title)
+                br
+                textarea#edit-body.body(form='edit-form', name='body')= article.body
+                br
+                button(type='submit', onclick='submitEditForm()') Skicka
+
+            form#remove-form(action='/db/articles/remove', method='post')
+                input#remove-id(type='hidden', name='id', value=article._id)
+                button(type='submit', onclick='submitRemoveForm()') Ta bort
         else
-            h2 Database failure
+            form#write-form(action='/db/articles/new', method='post')
+                input#write-title.title(type='text', name='title', placeholder='Titel')
+                br
+                textarea#write-body.body(class='body', form='edit-form', name='body')
+                br
+                button(type='submit', onclick='submitWriteForm()') Skicka
