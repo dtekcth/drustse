@@ -1,0 +1,28 @@
+extends ./base.pug
+
+block title
+    title= title
+
+block content
+    article
+        if tried
+            if success
+                header
+                    h1 Login successful!
+            else
+                header
+                    h1 Login failure!
+
+                p= err
+        else
+            header
+                h1 Logga in
+
+            form#login-form(action='/admin/login', method='post')
+                input(type='hidden', name='redirect', value=redirect)
+
+                input(type='text', name='username')
+                br
+                input(type='password', name='password')
+                br
+                button(type='submit') Logga in

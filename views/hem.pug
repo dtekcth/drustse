@@ -24,7 +24,7 @@ block header
 block content
     if articles.success
         each art in articles.payload
-            article.news-article
+            article.news-article(id="article-" + art._id)
                 header
                     .wrapper
                         h2= art.title

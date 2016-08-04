@@ -4,8 +4,8 @@ $error-border-color : firebrick;
 $error-default-color: red;
 
 div.tools-form {
-  width: 33%;
-  display: inline-block;
+  width: 300px;
+  display: block;
   vertical-align: top;
   text-align: center;
 
@@ -27,5 +27,3 @@ div.tools-form {
   border-radius: 5px;
   border: 2px solid $error-border-color;
 }
-
-

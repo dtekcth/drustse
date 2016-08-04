@@ -1,125 +1,106 @@
+'use strict';
 
 const mongoose = require('mongoose');
 const async = require('async');
 const Tool = require('./toolModel');
 const router = require('express').Router();
-
-// Lookup table for name - id
-let lookupTools = {};
-
-// Fill lookup table with info from database
-Tool.find(function(err, tools){
-    if (err) { console.error(err); }
-
-    for(const tool of tools){
-        lookupTools[tool.name] = tool._id;
-    }
-});
-
-// Is the tool not in db?
-let isUnique = true;
-
-// Did the user forget to type a name?
-let noName = false;
-
+const admin = require('../admin');
 
 router.get('/', function(req, res) {
-    Tool.find(function(err, tools){
-        if (err) { console.error(err); }
+  Tool.find(function(err, tools){
+    if (err) { console.error(err); }
 
-        res.render('db_tools', {tools:tools, isUnique:isUnique, noName:noName});
-    });
+    res.render('db_tools', { tools:tools });
+  });
 });
 
 // If request to create new item in db
 router.post('/new', function(req, res) {
+  function newTool(session) {
     // Info from form
     const name = req.body.name;
     let amount = req.body.amount;
-    const tool = new Tool({name: name, amount:amount});
-
     if (amount == null){ // If an amount is not specified in the form
-        amount = 0;
+      amount = 0;
     }
 
-    lookupTools[name] = tool._id;
+    const tool = new Tool({name: name, amount:amount});
 
-    // Run save first to update isUnique before it is used in the redirect
-    async.series([
-        function(callback){
-            // Save in db
-            tool.save((err, v) => {
-                if (err) {
-                    if (err.name === 'MongoError') {
-                        isUnique = false;
-                    } else if (err.name === 'ValidationError'){
-                        noName = true;
-                    }
-                    callback(null);
-                    return console.error(err);
-                } else {
-                    callback(null);
-                    console.log('Added Tool: ' + tool.name);
-                }
-            });
-        },
-        function (callback) {
-            // Show db page again
-            res.redirect('/db/tools');
-            callback(null);
+    if (!name) {
+      res.json({ success: false, error: "Missing name" });
+    } else {
+      tool.save((err, v) => {
+        if (err) {
+          console.error(err);
+
+          let msg = "Database error";
+          if (err.name == 'MongoError') {
+            msg = "Tool already exists";
+          }
+
+          res.json({ success: false, error: msg});
+        } else {
+          res.json({ success: true })
         }
-    ], function(err){
-        if (err) return console.error(err);
-    });
+      });
+    }
+  }
+
+  admin.validateSession(req, res, newTool, admin.resUnauthorized(res));
 });
 
 // If request to update item in db
 router.post('/update', function(req, res){
-    const name = req.body.name;
+  function updateTool(session) {
+    const id = req.body.id;
     const amount = req.body.amount;
-    const id = lookupTools[name];
 
-    Tool.findById(id, function(err, tool){
-        if (err) return console.error(err);
-
+    Tool.findById(id, function(err, tool) {
+      if (err) {
+        console.error(err);
+        res.json({ success: false, error: "Inexistant tool " + id });
+      } else {
         // Change to requested amount
         tool.amount = amount;
 
         // Save in db
         tool.save((err, v) => {
-            if (err) return console.error(err);
-
-            console.log('Updated Tool: ' + tool.name);
+          if (err) {
+            console.error(err);
+            res.json({ success: false, error: "Database error" });
+          } else {
+            res.json({ success: true });
+          }
         });
+      }
+    });
+  }
 
-        // Show db page again
-        res.redirect('/db/tools');
-    })
+  admin.validateSession(req, res, updateTool, admin.resUnauthorized(res))
 });
 
 router.post('/remove', function(req, res){
-    const name = req.body.name;
-    const id = lookupTools[name];
+  function removeTool() {
+    const id = req.body.id;
 
     Tool.findById(id, function(err, tool){
-        if (err) return console.error(err);
-
+      if (!tool || err) {
+        console.error(err);
+        res.json({ success: false, error: "Inexistant tool " + id });
+      } else {
         tool.remove(function(err){
-            if (err) return console.error(err);
-
-            console.log('Deleted Tool: ' + tool.name);
+          if (err) {
+            console.error(err);
+            res.json({ success: false, error: "Database error" });
+          } else {
+            res.json({ success: true });
+          }
         });
-
-        // Remove tool from lookup table
-        delete lookupTools[name];
-
-        // Show db page again
-        res.redirect('/db/tools');
-
+      }
     });
+  }
 
-    delete lookupTools[name];
-
+  admin.validateSession(req, res, removeTool, admin.resUnauthorized(res))
 });
 
 module.exports = router;

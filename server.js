@@ -4,9 +4,11 @@ const sassMiddleware = require('node-sass-middleware');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const marked = require('marked');
 const tools = require('./db/routes_tools');
 const articles = require('./db/routes_articles');
+const admin = require('./admin');
 const NewsArticle = require('./db/newsArticleModel.js');
 
 const app = express();
@@ -27,6 +29,8 @@ app.use(sassMiddleware({
   debug: debugMode
 }));
 
+app.use(cookieParser());
+
 app.use(express.static('public'));
 
 //Parses incoming body to req.body
@@ -44,6 +48,7 @@ db.once('open', () => { console.log('Database connection open'); });
 
 app.use('/db/tools', tools);
 app.use('/db/articles', articles);
+app.use('/admin', admin.router);
 
 // Handler for root that displays news articles
 function homeHandler(req, res) {
