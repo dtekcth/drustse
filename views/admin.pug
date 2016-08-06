@@ -101,10 +101,10 @@ block content
                     td= tool.name
                     td
                         form(id='update-'+tool._id, action='/db/tools/update', method='post')
-                            input(type='hidden', name='id', value=tool._id)
+                            input(type='hidden', name='id', value=String(tool._id))
                             input(id='amount-'+tool._id, type='number', step='1', name='amount', value=tool.amount)
                             input(type='submit', value='Uppdatera', onclick='submitUpdate("'+tool._id+'")')
                     td
                         form(id='remove-'+tool._id, action='/db/tools/remove', method='post')
-                            input(type='hidden', name='id', value=tool._id)
+                            input(type='hidden', name='id', value=String(tool._id))
                             input(type='submit', value='Ta bort', onclick='submitRemove("'+tool._id+'")')
