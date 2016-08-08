@@ -6,6 +6,22 @@ block link
 block title
     title= title
 
+block includes
+    link(rel='stylesheet', href='/stylesheets/libs/pikaday.css')
+
+
 block content
     article
         h1 Verktyg
+
+        form(action='/verktyg/submit', method='post')
+            input(type='text', id='datepicker')
+            select(name='tool')
+                each t in tools
+                    option(value=t.name)= t.name
+
+        //- testing
+        each t in tools
+            p= t
+
+    script(type='text/javascript', src='/js/verktyg-bundle.js')

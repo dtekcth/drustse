@@ -9,6 +9,8 @@ const marked = require('marked');
 const tools = require('./db/routes_tools');
 const articles = require('./db/routes_articles');
 const admin = require('./admin');
+
+const Tool        = require('./db/toolModel');
 const NewsArticle = require('./db/newsArticleModel.js');
 
 const app = express();
@@ -75,7 +77,13 @@ function homeHandler(req, res) {
 app.get('/',          homeHandler);
 app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
 app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
-app.get('/verktyg',   (req, res) => { res.render('verktyg', {title:'Verktyg'}); });
+app.get('/verktyg',   (req, res) => {
+  Tool.find(function(err, tools){
+    if (err) { console.error(err); }
+
+    res.render('verktyg', {title:'Verktyg', tools:tools});
+  });
+});
 app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'}); });
 app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
 
