@@ -3,63 +3,6 @@ extends ./base.pug
 block title
     title= title
 
-block includes
-    script(type='text/javascript').
-        function submitToolForm(form) {
-            submitFormAsync(form, (resp) => {
-                let result = JSON.parse(resp);
-                if (result.success) {
-                    alert("Succé!");
-                    window.location.reload();
-                } else {
-                    alert("Tool error: " + result.error);
-                }
-            });
-        }
-
-        function submitNew() {
-            let form = document.getElementById('new-form');
-            let name = document.getElementById('new-name');
-            let amount = document.getElementById('new-amount');
-
-            form.addEventListener("click", function(event){
-                event.preventDefault()
-            });
-
-            if (!name.value) {
-                alert("Namn obligatoriskt");
-            } else if (!amount.value) {
-                alert("Antal obligatoriskt");
-            } else {
-                submitToolForm(form);
-            }
-        }
-
-        function submitUpdate(id) {
-            let form = document.getElementById('update-'+id);
-            let amount = document.getElementById('amount-'+id);
-
-            form.addEventListener("click", function(event){
-                event.preventDefault()
-            });
-
-            if (!amount.value) {
-                alert("Antal obligatoriskt");
-            } else {
-                submitToolForm(form);
-            }
-        }
-
-        function submitRemove(id) {
-            let form = document.getElementById('remove-'+id);
-
-            form.addEventListener("click", function(event){
-                event.preventDefault()
-            });
-
-            submitToolForm(form);
-        }
-
 block content
     article
         h1 Admin
@@ -108,3 +51,5 @@ block content
                         form(id='remove-'+tool._id, action='/db/tools/remove', method='post')
                             input(type='hidden', name='id', value=String(tool._id))
                             input(type='submit', value='Ta bort', onclick='submitRemove("'+tool._id+'")')
+
+    script(type='text/javascript', src='/js/admin.js')
