@@ -2,7 +2,7 @@
   "name": "drust-website",
   "version": "0.0.1",
   "scripts": {
-    "start": "babel public/js --out-dir public/js && nodejs server.js"
+    "start": "babel public/js --out-dir public/js --only *.es6 && nodejs server.js"
   },
   "dependencies": {
     "async": "^2.0.0",
