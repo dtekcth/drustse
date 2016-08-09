@@ -5,13 +5,17 @@ $error-default-color: red;
 
 div.tools-form {
   width: 300px;
-  display: block;
   vertical-align: top;
   text-align: center;
 
   button {
     margin: 0 auto;
   }
+
+  input {
+    margin-top:0.4rem;
+  }
+
 }
 
 #error {

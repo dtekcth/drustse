@@ -21,14 +21,13 @@ const babel = require('jade-babel');
 pug.filters.babel = babel({});
 
 // Constants
-const debugMode = true;
 const port = process.env.PORT || 5000;
 
 // Settings for static files
 app.use(sassMiddleware({
   src: __dirname + "/public",
   dest:__dirname + "/public",
-  debug: debugMode
+  debug: false
 }));
 
 app.use(cookieParser());

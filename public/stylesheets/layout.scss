@@ -144,6 +144,10 @@ article {
   h1:first-child {
     margin-top: 0;
   }
+
+  > p {
+    text-align: center;
+  }
 }
 
 article:not(.news-article) {
