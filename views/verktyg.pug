@@ -28,8 +28,11 @@ block content
                 p Vilka verktyg vill du låna?
                 select(name='tool', onchange='setNumber(this)')
                     each t in tools
-                        option(value=t.name)= t.name
-                input(type='number', id='select-number', min='1')
+                        if tools.indexOf(t) === 0
+                            option(value=t.name, selected)= t.name
+                        else
+                            option(value=t.name)= t.name
+                input(type='number', id='select-number', min='1', value='1', max=tools[0].amount)
 
         //- testing
         each t in tools
@@ -37,9 +40,9 @@ block content
 
     script(type='text/javascript', src='/js/verktyg-bundle.js')
     script.
-            function setNumber(select) {
-                const num = document.getElementById('select-number');
-                const tools = !{JSON.stringify(tools)}; // For getting the 'tools' variable from pug
-                num.value = 1;
-                num.max = tools[select.selectedIndex].amount; // Can't borrow more than the amount of the tool we currently have
-            }
+        function setNumber(select) {
+            const num = document.getElementById('select-number');
+            const tools = !{JSON.stringify(tools)}; // For getting the 'tools' variable from pug
+            num.value = 1;
+            num.max = tools[select.selectedIndex].amount; // Can't borrow more than the amount of the tool we currently have
+        }
