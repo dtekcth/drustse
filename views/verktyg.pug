@@ -26,13 +26,17 @@ block content
                 input(type='text', name='end-date', id='datepickerEnd', placeholder='Återlämningsdatum')
                 br
                 p Vilka verktyg vill du låna?
-                select(name='tool', onchange='setNumber(this)')
+                ul(id='tool-list')
+                select(name='tool', onchange='setNumber()', id='select-tool')
                     each t in tools
-                        if tools.indexOf(t) === 0
+                        //if tools.indexOf(t) === 0
                             option(value=t.name, selected)= t.name
-                        else
-                            option(value=t.name)= t.name
+                        option(value=t.name)= t.name
                 input(type='number', id='select-number', min='1', value='1', max=tools[0].amount)
+                br
+                button(type='button' onclick='addTool()') Välj
+                br
+                button(type='submit') Skicka
 
         //- testing
         each t in tools
@@ -40,9 +44,26 @@ block content
 
     script(type='text/javascript', src='/js/verktyg-bundle.js')
     script.
-        function setNumber(select) {
+        var tools = !{JSON.stringify(tools)}; // For getting the 'tools' variable from pug
+    script.
+            //:babel
+            'use strict';
+
+            const select = document.getElementById('select-tool');
             const num = document.getElementById('select-number');
-            const tools = !{JSON.stringify(tools)}; // For getting the 'tools' variable from pug
-            num.value = 1;
-            num.max = tools[select.selectedIndex].amount; // Can't borrow more than the amount of the tool we currently have
-        }
+
+            function setNumber() {
+                num.value = 1;
+                num.max = tools[select.selectedIndex].amount; // Can't borrow more than the amount of the tool we currently have
+            }
+
+            function addTool(){
+                const list = document.getElementById('tool-list');
+                const li = document.createElement('li');
+                const tool = tools[select.selectedIndex];
+                li.appendChild(document.createTextNode(tool.name + ' : ' + num.value));
+                list.appendChild(li);
+                select.remove(select.selectedIndex);
+                const index = tools.indexOf(tool);
+                tools.splice(index, 1);
+            }
