@@ -14,11 +14,15 @@ block content
     article
         h1 Verktyg
 
-        form(action='/verktyg/submit', method='post')
-            input(type='text', id='datepicker')
-            select(name='tool')
-                each t in tools
-                    option(value=t.name)= t.name
+        .tools-form.center
+            form(action='/verktyg/submit', method='post')
+                input(type='text', name='name', placeholder='Namn')
+                input(type='text', name='email', placeholder='Mail')
+                input(type='text', name='start-date' id='datepickerStart', placeholder='Startdatum')
+                input(type='text', name='end-date', id='datepickerEnd', placeholder='Återlämningsdatum')
+                select(name='tool')
+                    each t in tools
+                        option(value=t.name)= t.name
 
         //- testing
         each t in tools
