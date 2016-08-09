@@ -29,8 +29,6 @@ block content
                 ul(id='tool-list')
                 select(name='tool', onchange='setNumber()', id='select-tool')
                     each t in tools
-                        //if tools.indexOf(t) === 0
-                            option(value=t.name, selected)= t.name
                         option(value=t.name)= t.name
                 input(type='number', id='select-number', min='1', value='1', max=tools[0].amount)
                 br
@@ -45,8 +43,8 @@ block content
     script(type='text/javascript', src='/js/verktyg-bundle.js')
     script.
         var tools = !{JSON.stringify(tools)}; // For getting the 'tools' variable from pug
-    script.
-            //:babel
+    script
+        :babel
             'use strict';
 
             const select = document.getElementById('select-tool');
@@ -66,4 +64,5 @@ block content
                 select.remove(select.selectedIndex);
                 const index = tools.indexOf(tool);
                 tools.splice(index, 1);
+                setNumber();
             }
