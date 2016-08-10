@@ -6,13 +6,18 @@ block link
 block title
     title= title
 
+block includes
+    //- For the image slider
+    link(rel='stylesheet', href='/stylesheets/libs/ideal-image-slider.css')
+    link(rel='stylesheet', href='/stylesheets/libs/default.css')
+
 block content
     article
         h1 Basen
 
         p.
             Basen är den lokal där samtliga Datateknologer kommer för att äta, umgås och egentligen göra vad de vill.
-            I Basen finns lite saker som gör livet enklare för de flesta. Till exempel finns det mikrovågsugnar, en automat att köpa godsaker eller läsk i, och ibland gafflar.
+            I Basen finns lite saker som gör livet enklare för de flesta. Till exempel finns det mikrovågsugnar, en automat att köpa godsaker eller läsk i, och ibland finns det även gafflar i köket som alla kan använda.
             Har man något viktigt att säga, som t.ex. att man vill arrangera en grillfest eller afterschool, kan man enkelt hänga upp en lapp i Basen så kommer de flesta se det.
         p.
             En av de mer populära sakerna som händer i Basen är de pubar som arrangeras av Delta där man kan köpa från ett brett utbud av öl.
@@ -20,4 +25,23 @@ block content
             Förutom det så sker även pubrunda i Basen 4 gånger om året.
             Varje onsdag så är det dessutom Afterschool, där datateknologen för en billig penning kan köpa gott käk som lagats av en av föreningarna.
 
-        img.center(src='/images/Basen.png' alt='Basen-bild')
+        #slider(onmouseover='stopSlide()', onmouseout='startSlide()')
+            img(src='/images/Basen.png' alt='Basen-bild')
+            img(src='/images/Basen.png' alt='Basen-bild')
+            img(src='/images/Basen.png' alt='Basen-bild')
+
+    //- For the image slider
+    script(src='/js/libs/ideal-image-slider.js')
+    script
+        :babel
+            const intervalTime = 5000;
+            const slider = new IdealImageSlider.Slider('#slider');
+            let intervalId = window.setInterval(function(){slider.nextSlide();}, intervalTime);
+
+            function startSlide() {
+                intervalId = window.setInterval(function(){slider.nextSlide();}, intervalTime);
+            }
+
+            function stopSlide() {
+                clearInterval(intervalId);
+            }
