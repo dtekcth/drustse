@@ -144,10 +144,6 @@ article {
   h1:first-child {
     margin-top: 0;
   }
-
-  > p {
-    text-align: center;
-  }
 }
 
 article:not(.news-article) {
@@ -230,4 +226,12 @@ td {
 
 .center {
   margin: auto;
+}
+
+p.center {
+  text-align: center;
+}
+
+img.center {
+  display: block;
 }
