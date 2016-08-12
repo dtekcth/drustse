@@ -1,13 +1,10 @@
 //TODO: Move some sass to other files and import all to layout.scss
 
 @import 'db_tools';
+@import 'vars';
 
 // General colors
 $text      : rgba(black, 0.75);
-$data      : #FA6607;
-$light-data: lighten($data, 38%);
-$dark-data : darken($data, 32%);
-$snow      : #FFFAFA;
 
 // Default navigation menu colors
 $nav-background   : #444;

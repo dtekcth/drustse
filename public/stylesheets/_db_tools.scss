@@ -1,4 +1,6 @@
 
+@import 'vars';
+
 $error-height : 2rem;
 $error-border-color : firebrick;
 $error-default-color: red;
@@ -13,9 +15,93 @@ div.tools-form {
   }
 
   input {
+    background-color: white;
     margin-top:0.4rem;
   }
 
+  input[type=text]{
+    width:70%;
+    line-height:1.5rem;
+    border-radius: 0px;
+    border: 2px solid gray;
+
+    &:focus {
+      border: 2px solid black;
+    }
+  }
+
+  input[type=number]{
+    border-radius:0px;
+    border: 2px solid gray;
+    margin-left: 0.2rem;
+    width:65%;
+    //height:1.5rem;
+    line-height:1.5rem;
+
+    &:focus {
+      border: 2px solid black;
+    }
+  }
+
+  select {
+    background-color: white;
+    border: 2px solid gray;
+    -moz-appearance: none;
+    width:30%;
+    outline:none;
+    margin-bottom: 1rem;
+    height: 1.8rem;
+
+    &:-moz-focusring {
+      color: transparent;
+      text-shadow: 0 0 0 #000;
+    }
+  }
+
+  .select-wrapper {
+    display: inline-block;
+    position: relative;
+
+    &::after {
+      content:'\2193';
+      position: absolute;
+      top:4px;
+      font-size:15px;
+    }
+
+  }
+
+  .select-wrapper::after {
+    content:'\2193';
+    position: absolute;
+    transform: translate(-10.5rem, 0.5rem);
+    font-size:15px;
+  }
+
+  button {
+    background-color: white;
+    border-radius: 0;
+    border: 2px solid gray;
+    color: $data;
+    width:30%;
+    font-size:15px;
+    height:2rem;
+    margin-bottom:1rem;
+
+    &:hover {
+      background-color:$light-data;
+      color: $dark-data;
+    }
+
+  }
+}
+
+:focus {
+  outline: none;
+}
+
+::-moz-focus-inner {
+  border: 0;
 }
 
 #error {
