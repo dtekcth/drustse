@@ -1,60 +1,9 @@
 
-@import 'vars';
+@import 'forms';
 
 $error-height : 2rem;
 $error-border-color : firebrick;
 $error-default-color: red;
-
-
-// CSS for any form on the site
-div.site-form{
-  width: 300px;
-  vertical-align: top;
-  text-align: center;
-
-  input {
-    background-color: white;
-    margin-top:0.4rem;
-  }
-
-  input[type=text]{
-    width:70%;
-    line-height:1.5rem;
-    border-radius: 0px;
-    border: 2px solid gray;
-
-    &:focus {
-      border: 2px solid black;
-    }
-  }
-
-  input[type=number]{
-    border-radius:0px;
-    border: 2px solid gray;
-    line-height:1.5rem;
-
-    &:focus {
-      border: 2px solid black;
-    }
-  }
-
-  button {
-    background-color: white;
-    border-radius: 0;
-    border: 2px solid gray;
-    color: $data;
-    width:30%;
-    font-size:15px;
-    height:2rem;
-    margin-bottom:1rem;
-
-    &:hover {
-      background-color:$light-data;
-      color: $dark-data;
-    }
-
-  }
-}
 
 // Form extension for the tools page
 div.tools-form {
@@ -80,15 +29,6 @@ div.tools-form {
       text-shadow: 0 0 0 #000;
     }
   }
-}
-
-// Removed all outlines. They are ugly af
-:focus {
-  outline: none;
-}
-
-::-moz-focus-inner {
-  border: 0;
 }
 
 #error {

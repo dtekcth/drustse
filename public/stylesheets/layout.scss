@@ -25,25 +25,31 @@ a {
   color: $data;
   text-decoration: none;
   transition: all 32ms linear;
-}
-a:hover {
-  text-decoration: underline;
-  color: $dark-data;
-}
-a.active {
-  color: $dark-data;
+
+  &.active {
+    color: $dark-data;
+  }
+
+  &:hover {
+    text-decoration: underline;
+    color: $dark-data;
+  }
+
+
 }
 
 h1, h2, h3, h4 {
-  text-align: center;
+  @extend .center;
 }
 
 nav {
   a {
     display: block;
-  }
-  a:hover {
-    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+
   }
 }
 
@@ -109,14 +115,15 @@ main > header {
     box-shadow: $main-shadow;
     border-radius: $light-radius;
     background-color: $snow;
-  }
 
-  a:hover {
-    background-color: $light-data;
-  }
+    &:hover {
+      background-color: $light-data;
+    }
 
-  a.active {
-    background-color: $data;
+    &.active {
+      background-color: $data;
+    }
+
   }
 }
 
@@ -225,10 +232,25 @@ td {
   margin: auto;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 p.center {
   text-align: center;
 }
 
 img.center {
   display: block;
+}
+
+// Removed all outlines. They are ugly af
+:focus {
+  outline: none;
+}
+// For Firefox
+::-moz-focus-inner {
+  border: 0;
 }
