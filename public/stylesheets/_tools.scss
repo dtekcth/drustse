@@ -29,6 +29,14 @@ div.tools-form {
       text-shadow: 0 0 0 #000;
     }
   }
+
+  ul {
+    padding: 0;
+    list-style: none;
+    width:70%;
+    border: 2px solid gray;
+  }
+
 }
 
 #error {

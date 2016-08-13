@@ -83,6 +83,15 @@ app.get('/verktyg',   (req, res) => {
     res.render('verktyg', {title:'Verktyg', tools:tools});
   });
 });
+app.post('/verktyg/submit', (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  const toolList = JSON.parse(req.body.toolList);
+
+  res.redirect('/verktyg');
+});
 app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'}); });
 app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
 

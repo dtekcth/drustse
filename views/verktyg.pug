@@ -17,25 +17,27 @@ block content
         p.center Vill du låna verktyg av DRust? Fyll i detta formulär så hör vi av oss.
         hr(style='width:50%;color:gray')
         .tools-form.center
-            form(action='/verktyg/submit', method='post')
+            form(action='/verktyg/submit', method='post', id='tool-form')
                 input(type='text', name='name', placeholder='Namn')
                 br
                 input(type='text', name='email', placeholder='Mail')
                 br
-                input(type='text', name='start-date' id='datepickerStart', placeholder='Startdatum')
+                input(type='text', name='startDate' id='datepickerStart', placeholder='Startdatum')
                 br
-                input(type='text', name='end-date', id='datepickerEnd', placeholder='Återlämningsdatum')
+                input(type='text', name='endDate', id='datepickerEnd', placeholder='Återlämningsdatum')
                 br
                 p Vilka verktyg vill du låna?
+                input(type='hidden', name='toolList' ,id='tool-list-input')
                 ul(id='tool-list')
-                select(name='tool', onchange='setNumber()', id='select-tool')
+                br
+                select(onchange='setNumber()', id='select-tool')
                     each t in tools
                         option(value=t.name)= t.name
                 input(type='number', id='select-number', min='1', value='1', max=tools[0].amount)
                 br
                 button(type='button' onclick='addTool()') Välj
                 br
-                button(type='submit') Skicka
+                button(onclick='addToolList()') Skicka
 
         //- testing
         each t in tools
@@ -50,6 +52,11 @@ block content
 
             const select = document.getElementById('select-tool');
             const num = document.getElementById('select-number');
+            const list = document.getElementById('tool-list');
+
+            let toolList = [];
+
+            list.style = 'display:none';
 
             function setNumber() {
                 num.value = 1;
@@ -57,13 +64,22 @@ block content
             }
 
             function addTool(){
-                const list = document.getElementById('tool-list');
+                list.style = 'display:inline-block';
                 const li = document.createElement('li');
                 const tool = tools[select.selectedIndex];
-                li.appendChild(document.createTextNode(tool.name + ' : ' + num.value));
+                li.appendChild(document.createTextNode(tool.name + ' : ' + num.value + ' st'));
                 list.appendChild(li);
                 select.remove(select.selectedIndex);
+                toolList.push(tool);
                 const index = tools.indexOf(tool);
                 tools.splice(index, 1);
                 setNumber();
+            }
+
+            function addToolList() {
+                const input = document.getElementById('tool-list-input');
+                input.value = JSON.stringify(toolList);
+
+                const toolForm = document.getElementById('tool-form');
+                toolForm.submit();
             }
