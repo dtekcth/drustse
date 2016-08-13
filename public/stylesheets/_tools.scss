@@ -5,7 +5,9 @@ $error-height : 2rem;
 $error-border-color : firebrick;
 $error-default-color: red;
 
-div.tools-form {
+
+// CSS for any form on the site
+div.site-form{
   width: 300px;
   vertical-align: top;
   text-align: center;
@@ -29,26 +31,10 @@ div.tools-form {
   input[type=number]{
     border-radius:0px;
     border: 2px solid gray;
-    margin-left: 0.2rem;
-    width:9.5rem;
     line-height:1.5rem;
 
     &:focus {
       border: 2px solid black;
-    }
-  }
-
-  select {
-    background-color: white;
-    border: 2px solid gray;
-    width:3.5rem;
-    outline:none;
-    margin-bottom: 1rem;
-    height: 1.8rem;
-
-    &:-moz-focusring {
-      color: transparent;
-      text-shadow: 0 0 0 #000;
     }
   }
 
@@ -70,6 +56,33 @@ div.tools-form {
   }
 }
 
+// Form extension for the tools page
+div.tools-form {
+  @extend .site-form;
+
+  input[type=number]{
+    width:9.5rem;
+    margin-left: 0.2rem;
+  }
+
+  select {
+    background-color: white;
+    border: 2px solid gray;
+    width:3.5rem;
+    outline:none;
+    margin-bottom: 1rem;
+    height: 1.8rem;
+
+    // Same as outline:none but for select.
+    // Different because some stupid shit about it being rendered by the OS and not the browser
+    &:-moz-focusring {
+      color: transparent;
+      text-shadow: 0 0 0 #000;
+    }
+  }
+}
+
+// Removed all outlines. They are ugly af
 :focus {
   outline: none;
 }
