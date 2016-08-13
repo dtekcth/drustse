@@ -10,10 +10,6 @@ div.tools-form {
   vertical-align: top;
   text-align: center;
 
-  button {
-    margin: 0 auto;
-  }
-
   input {
     background-color: white;
     margin-top:0.4rem;
@@ -35,7 +31,6 @@ div.tools-form {
     border: 2px solid gray;
     margin-left: 0.2rem;
     width:65%;
-    //height:1.5rem;
     line-height:1.5rem;
 
     &:focus {
@@ -74,7 +69,9 @@ div.tools-form {
   .select-wrapper::after {
     content:'\2193';
     position: absolute;
-    transform: translate(-10.5rem, 0.5rem);
+    //transform: translate(-10.5rem, 0.5rem);
+    top:12px;
+    right:9.7rem;
     font-size:15px;
   }
 
