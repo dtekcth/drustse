@@ -28,11 +28,10 @@ block content
                 br
                 p Vilka verktyg vill du låna?
                 ul(id='tool-list')
-                .select-wrapper
-                    select(name='tool', onchange='setNumber()', id='select-tool')
-                        each t in tools
-                            option(value=t.name)= t.name
-                    input(type='number', id='select-number', min='1', value='1', max=tools[0].amount)
+                select(name='tool', onchange='setNumber()', id='select-tool')
+                    each t in tools
+                        option(value=t.name)= t.name
+                input(type='number', id='select-number', min='1', value='1', max=tools[0].amount)
                 br
                 button(type='button' onclick='addTool()') Välj
                 br

@@ -41,7 +41,6 @@ div.tools-form {
   select {
     background-color: white;
     border: 2px solid gray;
-    -moz-appearance: none;
     width:3.5rem;
     outline:none;
     margin-bottom: 1rem;
@@ -51,28 +50,6 @@ div.tools-form {
       color: transparent;
       text-shadow: 0 0 0 #000;
     }
-  }
-
-  .select-wrapper {
-    display: inline-block;
-    position: relative;
-
-    &::after {
-      content:'\2193';
-      position: absolute;
-      top:4px;
-      font-size:15px;
-    }
-
-  }
-
-  .select-wrapper::after {
-    content:'\2193';
-    position: absolute;
-    top:13px;
-    right:10.3rem;
-    font-size:15px;
-    pointer-events: none;
   }
 
   button {
