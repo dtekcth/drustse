@@ -1,6 +1,18 @@
 
 @import 'vars';
 
+// Form variables
+$form-background-color : white;
+$form-border-color : gray;
+$form-border-color-focus : black;
+
+// Button size in forms
+$button-width : 30%;
+$button-font-size : 15px;
+$button-height : 2rem;
+
+$button-large : 1.5;
+
 // CSS for any form on the site
 div.site-form{
   width: 300px;
@@ -8,45 +20,65 @@ div.site-form{
   text-align: center;
 
   input {
-    background-color: white;
+    background-color: $form-background-color;
     margin-top:0.4rem;
   }
 
   input[type=text]{
     width:70%;
     line-height:1.5rem;
-    border-radius: 0px;
-    border: 2px solid gray;
+    border-radius: 0;
+    border: 2px solid $form-border-color;
 
     &:focus {
-      border: 2px solid black;
+      border: 2px solid $form-border-color-focus;
     }
   }
 
   input[type=number]{
-    border-radius:0px;
+    border-radius:0;
     border: 2px solid gray;
     line-height:1.5rem;
 
     &:focus {
-      border: 2px solid black;
+      border: 2px solid $form-border-color-focus;
     }
   }
 
   button {
-    background-color: white;
+    background-color: $form-background-color;
     border-radius: 0;
-    border: 2px solid gray;
+    border: 2px solid $form-border-color;
     color: $data;
-    width:30%;
-    font-size:15px;
-    height:2rem;
-    margin-bottom:1rem;
+    width:$button-width;
+    font-size:$button-font-size;
+    height:$button-height;
+
+    &.large {
+      width:$button-width*$button-large;
+      font-size:$button-font-size*$button-large;
+      height:$button-height*$button-large;
+    }
 
     &:hover {
       background-color:$light-data;
       color: $dark-data;
     }
-
   }
+
+  select {
+    background-color: $form-background-color;
+    border: 2px solid $form-border-color;
+  }
+
+  hr {
+    width:80%;
+  }
+
+  ul {
+    background-color: $form-background-color;
+    list-style: none;
+    padding: 0;
+  }
+
 }

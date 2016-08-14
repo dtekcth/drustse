@@ -12,10 +12,10 @@ block includes
 
 block content
     article
-        h1 Låna Verktyg
+        h1(style='margin-bottom:1rem') Låna Verktyg
 
         p.center Vill du låna verktyg av DRust? Fyll i detta formulär så hör vi av oss.
-        hr(style='width:50%;color:gray')
+        hr
         .tools-form.center
             form(action='/verktyg/submit', method='post', id='tool-form')
                 input(type='text', name='name', placeholder='Namn')
@@ -25,8 +25,8 @@ block content
                 input(type='text', name='startDate' id='datepickerStart', placeholder='Startdatum')
                 br
                 input(type='text', name='endDate', id='datepickerEnd', placeholder='Återlämningsdatum')
-                br
-                p Vilka verktyg vill du låna?
+                hr
+                h4 Vilka verktyg vill du låna?
                 input(type='hidden', name='toolList' ,id='tool-list-input')
                 ul(id='tool-list')
                 br
@@ -35,13 +35,10 @@ block content
                         option(value=t.name)= t.name
                 input(type='number', id='select-number', min='1', value='1', max=tools[0].amount)
                 br
-                button(type='button' onclick='addTool()') Välj
+                button(type='button' onclick='addTool()') Låna
                 br
-                button(onclick='addToolList()') Skicka
-
-        //- testing
-        each t in tools
-            p= t.name + '::' + t.amount
+                hr
+                button.large(onclick='addToolList()') Skicka
 
     script(type='text/javascript', src='/js/verktyg-bundle.js')
     script.

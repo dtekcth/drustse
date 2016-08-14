@@ -254,3 +254,17 @@ img.center {
 ::-moz-focus-inner {
   border: 0;
 }
+
+// Same as outline:none but for select.
+// Different because some stupid shit about it being rendered by the OS and not the browser
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+hr {
+  width:50%;
+  color: gray;
+  margin-top:2rem;
+  margin-bottom:2rem;
+}
