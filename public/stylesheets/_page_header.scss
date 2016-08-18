@@ -1,0 +1,108 @@
+@import 'vars';
+
+#big-banner {
+  height: 400px;
+  background-position: 50% 40%;
+  background-image: url("/images/bg-oskuld.jpg");
+  background-size: cover;
+  padding-top: 155px;
+
+  @media screen and (min-width: $break-large) {
+    height: 630px;
+  }
+
+  .title-bar {
+    background-color: rgba(black, 0.6);
+    height: 90px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 0 10px black;
+
+    @media screen and (min-width: $break-large) {
+      height: 120px;
+    }
+
+    b {
+      flex-grow: 1;
+      flex-basis: 0;
+      font-size: calc(3.5vw);
+      font-weight: medium;
+      letter-spacing: -0.5px;
+      color: $data;
+      text-shadow: 1px 1px 1px rgba($data, 0.7);
+      text-align: center;
+
+      @media screen and (min-width: $break-large) {
+	font-size: 44px;
+      }
+    }
+
+    img {
+      width: 19vw;
+      height: 19vw;
+      opacity: 0.95;
+    }
+  }
+}
+
+main > header {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 32px;
+  margin-bottom: 56px;
+
+  @media screen and (min-width: $break-small) {
+  }
+
+  @media screen and (min-width: $break-large) {
+    height: 40px;
+  }
+
+  img {
+    width: 15vw;
+    height: 15vw;
+  }
+}
+
+.site-nav {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  @media screen and (min-width: $break-large) {
+    width: calc(15% + 760px);
+    justify-content: space-between;
+  }
+
+  a {
+    text-align: center;
+    font-size: 20pt;
+    padding: 8px 16px;
+    margin: 0 calc(3vw - 20px);
+    box-shadow: $main-shadow;
+    border-radius: $light-radius;
+    background-color: $snow;
+
+    @media screen and (min-width: $break-large) {
+      font-size: 23pt;
+      padding: 13px 28px;
+      margin: 0;
+    }
+
+    &:hover {
+      background-color: $light-data;
+    }
+
+    &.active {
+      background-color: $data;
+    }
+
+  }
+}
+
+#thin-banner {
+  background-color: $data;
+  height: 200px;
+}

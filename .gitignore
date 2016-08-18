@@ -9,3 +9,7 @@ public/js/libs/*.js
 # Node stuff
 node_modules/
 *.log
+
+# Temp files
+*~
+*#*#

@@ -4,3 +4,9 @@ $snow      : #FFFAFA;
 $data      : #FA6607;
 $light-data: lighten($data, 38%);
 $dark-data : darken($data, 32%);
+$main-shadow : 0 0 8px 1px rgba(black, 0.75);
+$light-radius : 6px;
+
+// media queries
+$break-small: 720px;
+$break-large: 1280px;

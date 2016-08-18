@@ -93,7 +93,6 @@ app.post('/verktyg/submit', (req, res) => {
   res.redirect('/verktyg');
 });
 app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'}); });
-app.get('/flipper',   (req, res) => { res.render('flipper', {title:'Flipper'}); });
 
 // Hidden routes
 app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
