@@ -75,10 +75,34 @@ div.site-form{
     width:80%;
   }
 
-  ul {
+  table {
     background-color: $form-background-color;
-    list-style: none;
     padding: 0;
+    border: 2px solid $form-border-color;
+    border-collapse: collapse;
+
+    tr {
+      border-bottom: 2px solid $form-border-color;
+
+      &:last-child {
+        border-bottom:none;
+      }
+
+      button {
+        font-weight:bold;
+        text-align:center;
+        width:90%;
+        height:90%;
+        border:none;
+
+        &:hover {
+          background-color: $form-background-color;
+        }
+
+      }
+
+    }
+
   }
 
 }
