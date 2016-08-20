@@ -1,5 +1,5 @@
 
-# drust.dtek.se web server
+# drust.se web application
 
 ## Setup
 
@@ -8,6 +8,14 @@
 2. Run `npm install`
 
 3. Run `npm start` to start the server
+
+## Usage
+
+### Adding a user
+To add a new user, use this command:
+```
+nodejs server.js --name=UserName --passw=Password
+```
 
 ## Contribute
 
