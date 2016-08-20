@@ -16,6 +16,7 @@
     "express": "^4.14.0",
     "jade-babel": "^5.0.0",
     "marked": "0.3",
+    "minimist": "^1.2.0",
     "moment": "^2.14.1",
     "mongoose": "^4.5.5",
     "node-sass-middleware": "^0.9.8",

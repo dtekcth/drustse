@@ -6,12 +6,16 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const marked = require('marked');
+const async = require('async');
 const tools = require('./db/routes_tools');
 const articles = require('./db/routes_articles');
 const admin = require('./admin');
+const userManagement  = require('./userManagement');
 
 const Tool        = require('./db/toolModel');
 const NewsArticle = require('./db/newsArticleModel.js');
+
+const argv = require('minimist')(process.argv.slice(2));
 
 const app = express();
 
@@ -53,11 +57,11 @@ app.use('/admin', admin.router);
 
 // Handler for root that displays news articles
 function homeHandler(req, res) {
-  NewsArticle.find({}, null, { sort: { posted: 'desc' }}, function(err, articles){
+  NewsArticle.find({}, null, {sort: {posted: 'desc'}}, function (err, articles) {
     if (err) {
       console.error(err);
 
-      res.render('hem', { title: 'Hem', articles: { success: false }});
+      res.render('hem', {title: 'Hem', articles: {success: false}});
     } else {
       for (let i = 0; i < articles.length; i++) {
         // article.body is some king of buffer and must be cast to String
@@ -67,38 +71,62 @@ function homeHandler(req, res) {
         articles[i].body = marked(body);
       }
 
-      res.render('hem', { title: 'Hem', articles: { success: true, payload: articles }});
+      res.render('hem', {title: 'Hem', articles: {success: true, payload: articles}});
     }
   });
 }
 
-// Routes
-app.get('/',          homeHandler);
-app.get('/drust',     (req, res) => { res.render('drust', {title:'DRust'}); });
-app.get('/basen',     (req, res) => { res.render('basen', {title:'Basen'}); });
-app.get('/verktyg',   (req, res) => {
-  Tool.find(function(err, tools){
-    if (err) { console.error(err); }
+if(argv.name && argv.passw){
+  // async to first add the user and then exit
+  async.series([
+    function(callback){
+      userManagement.addUser(argv.name, argv.passw, callback);
+    },
+    function(callback){
+      process.exit();
+    }]);
+} else {
 
-    res.render('verktyg', {title:'Verktyg', tools:tools});
+  // Routes
+  app.get('/', homeHandler);
+  app.get('/drust', (req, res) => {
+    res.render('drust', {title: 'DRust'});
   });
-});
-app.post('/verktyg/submit', (req, res) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const startDate = req.body.startDate;
-  const endDate = req.body.endDate;
-  const toolList = JSON.parse(req.body.toolList);
+  app.get('/basen', (req, res) => {
+    res.render('basen', {title: 'Basen'});
+  });
+  app.get('/verktyg', (req, res) => {
+    Tool.find(function (err, tools) {
+      if (err) {
+        console.error(err);
+      }
 
-  res.redirect('/verktyg');
-});
-app.get('/automaten', (req, res) => { res.render('automaten', {title:'Automaten'}); });
+      res.render('verktyg', {title: 'Verktyg', tools: tools});
+    });
+  });
+  app.post('/verktyg/submit', (req, res) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const startDate = req.body.startDate;
+    const endDate = req.body.endDate;
+    const toolList = JSON.parse(req.body.toolList);
 
-// Hidden routes
-app.get('/mat',       (req, res) => { res.render('mat', {title:'Mat'}); });
-app.get('/topsecret', (req, res) => { res.render('topsecret', {title:'Top Secret'}); });
+    res.redirect('/verktyg');
+  });
+  app.get('/automaten', (req, res) => {
+    res.render('automaten', {title: 'Automaten'});
+  });
+
+  // Hidden routes
+  app.get('/mat', (req, res) => {
+    res.render('mat', {title: 'Mat'});
+  });
+  app.get('/topsecret', (req, res) => {
+    res.render('topsecret', {title: 'Top Secret'});
+  });
 
 
-app.listen(port);
+  app.listen(port);
 
-console.log('\nListening on port ' + port);
+  console.log('\nListening on port ' + port);
+}

@@ -7,14 +7,22 @@ const User = require('./db/userModel.js');
 
 const salt = 'der bedste salten ind das heile eurobe';
 
-// FIXME: MUST be removed before production
-User.count({ username: 'admin' }, (err, count) => {
-  if (count == 0) {
-    bcrypt.hash('abc123', salt, (err, hash) => {
-      User.create({ username: 'admin', hash: hash });
-    });
-  }
-});
+
+// Adds a new user to the db
+function addUser(name, password, callback) {
+
+  User.count({ username: name}, (err, count) => {
+    if (!count) { // If the user doesn't exist
+      bcrypt.hash(String(password), salt, (err, hash) => {
+        User.create({username: name, hash: hash});
+        callback();
+      });
+    } else { // If the user exists
+      console.log(name + ' already exists as a user');
+      callback();
+    }
+  });
+}
 
 // Handler for admin login. Verify login-data if present, otherwise present login-prompt
 function loginGetHandler(req, res) {
@@ -66,4 +74,5 @@ function loginPostHandler(req, res) {
 }
 
 module.exports = { loginGetHandler: loginGetHandler,
-                   loginPostHandler: loginPostHandler };
+                   loginPostHandler: loginPostHandler,
+                   addUser : addUser};
