@@ -21,6 +21,9 @@
 
   block title
       title= title
+      
+  block includes
+      //- Include stylesheets or js files here
 
   block content
       article
@@ -37,6 +40,22 @@
   $name is the name of the pug file,
   $title is the title you want for the view.
 
+### About Javascript
+Always 
+``` javascript
+  'use strict';
+```
+#### Declarations
+If you know that your variable value won't change, declare it like this:
+``` javascript
+  const variable = 10;
+```
+otherwise
+``` javascript
+  let variable = 10;
+```
+Never use var.
+
 ### Javascript in script tags
 Example:
 ```javascript    
@@ -50,3 +69,12 @@ script
       var pers = new Person('taira');
       console.log(pers.name);
 ```
+
+### About SCSS
+Try to write your scss in a new file or in one existing that makes sense and then import the module to ```layout.scss```. Add an underscore as prefix to your .scss file, like ```_example.scss``` and then import it in ```layout.scss``` with 
+```scss
+  @import 'example'
+```
+
+For Sass/SCSS documentation:
+[Doc](http://sass-lang.com/guide)
