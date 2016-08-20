@@ -54,9 +54,9 @@ otherwise
 ``` javascript
   let variable = 10;
 ```
-Never use var.
+Never use ```var```.
 
-### Javascript in script tags
+#### Javascript in script tags
 Example:
 ```javascript    
 script
