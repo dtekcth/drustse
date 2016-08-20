@@ -3,12 +3,12 @@
 // Serialize a POST
 
 function serializeForm(form) {
-  var data = {};
+  let data = {};
 
-  for (var i = 0; i < form.childNodes.length; i++) {
-    var child = form.childNodes.item(i);
+  for (let i = 0; i < form.childNodes.length; i++) {
+    const child = form.childNodes.item(i);
 
-    if (child.tagName == "INPUT" || child.tagName == "TEXTAREA") {
+    if (child.tagName === "INPUT" || child.tagName === "TEXTAREA") {
       data[child.name] = child.value;
     }
   }
@@ -19,7 +19,7 @@ function serializeForm(form) {
 }
 
 function submitFormAsync(form, callback) {
-  var httpRequest = new XMLHttpRequest();
+  const httpRequest = new XMLHttpRequest();
 
   httpRequest.onload = function () {
     return callback(httpRequest.responseText);

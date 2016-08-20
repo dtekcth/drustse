@@ -26,7 +26,7 @@ function addUser(name, password, callback) {
 
 // Handler for admin login. Verify login-data if present, otherwise present login-prompt
 function loginGetHandler(req, res) {
-  res.render('login', { title: 'Login', tried: false, redirect: '' })
+  res.render('login', { title: 'Login', tried: false, redirect: '' });
 }
 
 function loginPostHandler(req, res) {
@@ -57,7 +57,7 @@ function loginPostHandler(req, res) {
           res.cookie('session_id', session_id);
           res.cookie('session_token', token);
 
-          if (req.body.redirect != '') {
+          if (req.body.redirect) {
             res.redirect(req.body.redirect);
           } else {
             res.render('login', { title: 'Login', tried: true, success: true });
