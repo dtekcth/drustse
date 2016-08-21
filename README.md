@@ -37,6 +37,7 @@ nodejs server.js --name=UserName --passw=Password
       article
           //- Add stuff here
   ```
+  [Pug documentation](http://jade-lang.com/reference/)
 3. In server.js add:
   ```javascript
   
@@ -44,16 +45,23 @@ nodejs server.js --name=UserName --passw=Password
   
   ```
   where 
-  $path is the subfolder in the url that you want,
-  $name is the name of the pug file,
-  $title is the title you want for the view.
+  `$path` is the subfolder in the url that you want,
+  `$name` is the name of the pug file,
+  `$title` is the title you want for the view.
 
 ### About Javascript
+
+#### Adding new files
+If you add a new js file to the server/backend, use `.js` file extension as newer nodejs versions support many ES6 features so we don't need to use babel.
+
+If you add a new js file to the frontend (public/js), use the `.es6` file extension so babel can convert it to ES5 code. Never use `.js` as that file extension is ignored by git in that folder.
+
+#### Coding style
 Always 
 ``` javascript
   'use strict';
 ```
-#### Declarations
+
 If you know that your variable value won't change, declare it like this:
 ``` javascript
   const variable = 10;
@@ -64,7 +72,12 @@ otherwise
 ```
 Never use ```var```.
 
+[Some ES6 features](https://babeljs.io/docs/learn-es2015/)
+
 #### Javascript in script tags
+
+If you want to use inline javascript, use the `:babel` filter to convert to ES5.
+
 Example:
 ```javascript    
 script
@@ -79,7 +92,7 @@ script
 ```
 
 ### About SCSS
-Try to write your scss in a new file or in one existing that makes sense and then import the module to ```layout.scss```. Add an underscore as prefix to your .scss file, like ```_example.scss``` and then import it in ```layout.scss``` with 
+Try to write your scss in a new file or in one existing that makes sense and then import the module to `layout.scss`. Add an underscore as prefix to your .scss file, like `_example.scss` and then import it in `layout.scss` with 
 ```scss
   @import 'example'
 ```
