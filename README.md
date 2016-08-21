@@ -45,9 +45,9 @@ nodejs server.js --name=UserName --passw=Password
   
   ```
   where 
-  $path is the subfolder in the url that you want,
-  $name is the name of the pug file,
-  $title is the title you want for the view.
+  `$path` is the subfolder in the url that you want,
+  `$name` is the name of the pug file,
+  `$title` is the title you want for the view.
 
 ### About Javascript
 
@@ -75,6 +75,9 @@ Never use ```var```.
 [Some ES6 features](https://babeljs.io/docs/learn-es2015/)
 
 #### Javascript in script tags
+
+If you want to use inline javascript, use the `:babel` filter to convert to ES5.
+
 Example:
 ```javascript    
 script
