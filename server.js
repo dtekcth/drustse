@@ -76,7 +76,7 @@ function homeHandler(req, res) {
   });
 }
 
-if(argv.name && argv.passw){
+if(argv.name && argv.passw){ // If we want to add a user
   // async to first add the user and then exit
   async.series([
     function(callback){
@@ -85,7 +85,7 @@ if(argv.name && argv.passw){
     function(callback){
       process.exit();
     }]);
-} else {
+} else { // If we want to start the server
 
   // Routes
   app.get('/', homeHandler);
@@ -110,7 +110,7 @@ if(argv.name && argv.passw){
     const startDate = req.body.startDate;
     const endDate = req.body.endDate;
     const toolList = JSON.parse(req.body.toolList);
-
+    //TODO: Add mailer
     res.redirect('/verktyg');
   });
   app.get('/automaten', (req, res) => {

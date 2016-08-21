@@ -8,18 +8,23 @@ const User = require('./db/userModel.js');
 const salt = 'der bedste salten ind das heile eurobe';
 
 
-// Adds a new user to the db
+/*
+    Adds a new user to the db
+    'callback' parameter is optional
+ */
 function addUser(name, password, callback) {
 
   User.count({ username: name}, (err, count) => {
     if (!count) { // If the user doesn't exist
       bcrypt.hash(String(password), salt, (err, hash) => {
         User.create({username: name, hash: hash});
-        callback();
+        if(callback)
+            callback();
       });
     } else { // If the user exists
       console.log(name + ' already exists as a user');
-      callback();
+      if(callback)
+          callback();
     }
   });
 }
