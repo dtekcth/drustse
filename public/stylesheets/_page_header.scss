@@ -1,23 +1,37 @@
 @import 'vars';
 
 #big-banner {
-  height: 400px;
-  background-position: 50% 40%;
-  background-image: url("/images/bg-oskuld.jpg");
-  background-size: cover;
-  padding-top: 155px;
+  background-color: $data;
+  padding-top: 10px;
+  padding-bottom: 34px;
+
+  @media screen and (min-width: $break-small) {
+    background-position: 50% 25%;
+    background-size: cover;
+    background-image: url("/images/bg-sten.jpg");
+    height: 170px;
+    padding-top: 170px;
+    padding-bottom: 0;
+  }
 
   @media screen and (min-width: $break-large) {
-    height: 630px;
+    height: 340px;
+    padding-top: 340px;
   }
 
   .title-bar {
-    background-color: rgba(black, 0.6);
-    height: 90px;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
     align-items: center;
-    box-shadow: 0 0 10px black;
+
+    @media screen and (min-width: $break-small) {
+      flex-direction: row;
+      height: 90px;
+      background-color: rgba(black, 0.6);
+      height: 60px;
+      justify-content: space-around;
+      box-shadow: 0 0 10px black;
+    }
 
     @media screen and (min-width: $break-large) {
       height: 120px;
@@ -26,12 +40,18 @@
     b {
       flex-grow: 1;
       flex-basis: 0;
-      font-size: calc(3.5vw);
+      font-size: 32px;
       font-weight: medium;
       letter-spacing: -0.5px;
-      color: $data;
-      text-shadow: 1px 1px 1px rgba($data, 0.7);
+      color: $snow;
+      text-shadow: 1px 1px 1px rgba(black, 0.7);
       text-align: center;
+
+      @media screen and (min-width: $break-small) {
+	color: $data;
+	text-shadow: 1px 1px 1px rgba($data, 0.7);
+	font-size: calc(3.5vw);
+      }
 
       @media screen and (min-width: $break-large) {
 	font-size: 44px;
@@ -39,9 +59,14 @@
     }
 
     img {
-      width: 19vw;
-      height: 19vw;
-      opacity: 0.95;
+      width: 36vw;
+      height: 36vw;
+
+      @media screen and (min-width: $break-small) {
+	width: 17vw;
+	height: 17vw;
+	opacity: 0.9;
+      }
     }
   }
 }
@@ -61,8 +86,21 @@ main > header {
   }
 
   img {
-    width: 15vw;
-    height: 15vw;
+    display: none;
+
+    @media screen and (min-width: $break-small) {
+      display: block;
+      height: 120px;
+      width: 120px;
+      position: relative;
+      top: 20px;
+    }
+
+    @media screen and (min-width: $break-large) {
+      height: 180px;
+      width: 180px;
+      top: 40px;
+    }
   }
 }
 
@@ -103,6 +141,12 @@ main > header {
 }
 
 #thin-banner {
-  background-color: $data;
-  height: 200px;
+  background-position: 50% 20%;
+  background-size: cover;
+  background-image: url("/images/bg-sten.jpg");
+  height: 170px;
+
+  @media screen and (min-width: $break-large) {
+    height: 260px;
+  }
 }
