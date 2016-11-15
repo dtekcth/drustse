@@ -29,3 +29,14 @@ function submitFormAsync(form, callback) {
   httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   httpRequest.send(serializeForm(form));
 }
+
+window.onload = () => {
+  document.getElementById("hamburger").onclick = () => {
+    let nav = document.getElementById("site-nav");
+    if (nav.style.display == "flex") {
+      nav.style.display = "none";
+    } else {
+      nav.style.display = "flex";
+    }
+  }
+}

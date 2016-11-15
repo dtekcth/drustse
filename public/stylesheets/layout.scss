@@ -17,7 +17,11 @@ body {
   line-height: 1.4;
   margin: 0;
   font-family: 'Fira Sans', sans-serif;
-  font-size: 18px;
+  font-size: 13px;
+
+  @media screen and (min-width: $break-small) {
+    font-size: 18px;
+  }
 }
 
 a {
@@ -33,8 +37,6 @@ a {
     text-decoration: underline;
     color: $dark-data;
   }
-
-
 }
 
 h1, h2, h3, h4 {
@@ -69,12 +71,13 @@ article {
   box-sizing: border-box;
   width: 100%;
   margin-bottom: 40px;
-  padding: 40px 60px;
-  padding-bottom: 60px;
+  padding: 20px 16px;
   background-color: $snow;
   box-shadow: $main-shadow;
 
   @media screen and (min-width: $break-small) {
+    padding: 40px 60px;
+    padding-bottom: 60px;
   }
 
   @media screen and (min-width: $break-large) {
@@ -136,7 +139,7 @@ ul.links {
 
 div.food-content {
   display: inline-block;
-  width:50%;
+  width: 50%;
   vertical-align: top;
 
   ul {

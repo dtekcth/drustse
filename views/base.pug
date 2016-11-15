@@ -33,11 +33,12 @@ html(lang='sv')
                 block header
                     a(href="/")
                         img(src="/images/drust16.png")
-                    nav.site-nav
+                    a(href="javascript:void(0)")#hamburger.nav-item &#x1f354;
+                    nav#site-nav
                         each link, name in menu
                             if name === selected
-                                a.active(href=link)= name
+                                a.active(href=link).nav-item= name
                             else
-                                a(href=link)= name
+                                a(href=link).nav-item= name
 
             block content
