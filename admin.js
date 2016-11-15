@@ -13,7 +13,7 @@ const NewsArticle = require('./db/newsArticleModel.js');
 function validateSession(req, res, callbackSuccess, callbackFail) {
   let session_id = req.cookies.session_id;
 
-  if (session_id != null) {
+  if (session_id) {
     Session.findOne({ session_id: session_id }, (err, session) => {
       if (err) {
         console.error(err);
@@ -26,7 +26,7 @@ function validateSession(req, res, callbackSuccess, callbackFail) {
                                 success: false,
                                 err: 'Invalid session id' });
         }
-      } else if (session == null) {
+      } else if (!session) {
         if (callbackFail) {
           callbackFail();
         } else {
@@ -77,14 +77,14 @@ function adminHandler(req, res) {
     NewsArticle.find({}, null, { sort: { posted: 'desc' }}, function(err_a, articles){
       Tool.find(function(err_t, tools){
         if (err_a || err_t) {
-          console.error(err);
+          console.error(err_a + err_t);
           res.status(500).send("Database error");
         } else {
           res.render('admin', { title: 'Admin', articles: articles, tools: tools });
         }
       });
     });
-  })
+  });
 }
 
 router.get('/', adminHandler);

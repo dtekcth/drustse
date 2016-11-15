@@ -7,18 +7,31 @@ const User = require('./db/userModel.js');
 
 const salt = 'der bedste salten ind das heile eurobe';
 
-// FIXME: MUST be removed before production
-User.count({ username: 'admin' }, (err, count) => {
-  if (count == 0) {
-    bcrypt.hash('abc123', salt, (err, hash) => {
-      User.create({ username: 'admin', hash: hash });
-    });
-  }
-});
+
+/*
+    Adds a new user to the db
+    'callback' parameter is optional
+ */
+function addUser(name, password, callback) {
+
+  User.count({ username: name}, (err, count) => {
+    if (!count) { // If the user doesn't exist
+      bcrypt.hash(String(password), salt, (err, hash) => {
+        User.create({username: name, hash: hash});
+        if(callback)
+            callback();
+      });
+    } else { // If the user exists
+      console.log(name + ' already exists as a user');
+      if(callback)
+          callback();
+    }
+  });
+}
 
 // Handler for admin login. Verify login-data if present, otherwise present login-prompt
 function loginGetHandler(req, res) {
-  res.render('login', { title: 'Login', tried: false, redirect: '' })
+  res.render('login', { title: 'Login', tried: false, redirect: '' });
 }
 
 function loginPostHandler(req, res) {
@@ -49,7 +62,7 @@ function loginPostHandler(req, res) {
           res.cookie('session_id', session_id);
           res.cookie('session_token', token);
 
-          if (req.body.redirect != '') {
+          if (req.body.redirect) {
             res.redirect(req.body.redirect);
           } else {
             res.render('login', { title: 'Login', tried: true, success: true });
@@ -66,4 +79,5 @@ function loginPostHandler(req, res) {
 }
 
 module.exports = { loginGetHandler: loginGetHandler,
-                   loginPostHandler: loginPostHandler };
+                   loginPostHandler: loginPostHandler,
+                   addUser : addUser};
