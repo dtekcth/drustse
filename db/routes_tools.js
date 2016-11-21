@@ -100,7 +100,7 @@ router.post('/remove', function(req, res){
     });
   }
 
-  admin.validateSession(req, res, removeTool, admin.resUnauthorized(res))
+  admin.validateSession(req, res, removeTool, admin.resUnauthorized(res));
 });
 
 module.exports = router;
