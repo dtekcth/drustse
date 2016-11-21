@@ -17,9 +17,12 @@ function addUser(name, password, callback) {
   User.count({ username: name}, (err, count) => {
     if (!count) { // If the user doesn't exist
       bcrypt.hash(String(password), salt, (err, hash) => {
-        User.create({username: name, hash: hash});
-        if(callback)
-            callback();
+        User.create({username: name, hash: hash}, function (err) {
+          if (err)
+              return console.log(err);
+          if(callback)
+              callback();
+        });
       });
     } else { // If the user exists
       console.log(name + ' already exists as a user');

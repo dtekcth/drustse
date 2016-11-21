@@ -45,7 +45,11 @@ app.use(bodyParser.json());
 // For templates
 app.set('view engine', 'pug');
 
+// Do we want to create a new user?
+const createUser = argv.name && argv.passw;
+
 // Database stuff
+
 const db = mongoose.connect('mongodb://localhost/db').connection;
 
 db.on('error', (err) => { console.log(err.message); });
@@ -76,57 +80,51 @@ function homeHandler(req, res) {
   });
 }
 
-if(argv.name && argv.passw){ // If we want to add a user
-  // async to first add the user and then exit
-  async.series([
-    function(callback){
-      userManagement.addUser(argv.name, argv.passw, callback);
-    },
-    function(callback){
-      process.exit();
-    }]);
-} else { // If we want to start the server
 
-  // Routes
-  app.get('/', homeHandler);
-  app.get('/drust', (req, res) => {
-    res.render('drust', {title: 'DRust'});
-  });
-  app.get('/basen', (req, res) => {
-    res.render('basen', {title: 'Basen'});
-  });
-  app.get('/verktyg', (req, res) => {
-    Tool.find(function (err, tools) {
-      if (err) {
-        console.error(err);
-      }
+if(createUser){ // If we want to add a user
+  // Exit afterwards
+  userManagement.addUser(argv.name, argv.passw, process.exit);
+}
 
-      res.render('verktyg', {title: 'Verktyg', tools: tools});
-    });
-  });
-  app.post('/verktyg/submit', (req, res) => {
-    const name = req.body.name;
-    const email = req.body.email;
-    const startDate = req.body.startDate;
-    const endDate = req.body.endDate;
-    const toolList = JSON.parse(req.body.toolList);
-    //TODO: Add mailer
-    res.redirect('/verktyg');
-  });
-  app.get('/automaten', (req, res) => {
-    res.render('automaten', {title: 'Automaten'});
-  });
+// Routes
+app.get('/', homeHandler);
+app.get('/drust', (req, res) => {
+  res.render('drust', {title: 'DRust'});
+});
+app.get('/basen', (req, res) => {
+  res.render('basen', {title: 'Basen'});
+});
+app.get('/verktyg', (req, res) => {
+  Tool.find(function (err, tools) {
+    if (err) {
+      console.error(err);
+    }
 
-  // Hidden routes
-  app.get('/mat', (req, res) => {
-    res.render('mat', {title: 'Mat'});
+    res.render('verktyg', {title: 'Verktyg', tools: tools});
   });
-  app.get('/topsecret', (req, res) => {
-    res.render('topsecret', {title: 'Top Secret'});
-  });
+});
+app.post('/verktyg/submit', (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  const toolList = JSON.parse(req.body.toolList);
+  //TODO: Add mailer
+  res.redirect('/verktyg');
+});
+app.get('/automaten', (req, res) => {
+  res.render('automaten', {title: 'Automaten'});
+});
 
+// Hidden routes
+app.get('/mat', (req, res) => {
+  res.render('mat', {title: 'Mat'});
+});
+app.get('/topsecret', (req, res) => {
+  res.render('topsecret', {title: 'Top Secret'});
+});
 
+if (!createUser){
   app.listen(port);
-
   console.log('\nListening on port ' + port);
 }
