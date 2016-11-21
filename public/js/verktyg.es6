@@ -2,6 +2,7 @@
 
 const moment = require('moment');
 const Pikaday = require('pikaday');
+const $ = require('jquery');
 
 // Settings for datepicker handling the start date
 const start = new Pikaday({

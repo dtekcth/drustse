@@ -14,6 +14,8 @@ block content
     article
         h1 Låna Verktyg
 
+        // TODO: Form fields must be required before sending
+
         .center-content
             p Vill du låna verktyg av DRust? Fyll i detta formulär så hör vi av oss.
             hr
@@ -41,8 +43,6 @@ block content
                     hr
                     button.large(type='submit') Skicka
 
-    script(type='text/javascript', src='https://code.jquery.com/jquery-3.1.1.min.js')
-    //script(type='text/javascript', src='/js/verktyg.js')
     script(type='text/javascript', src='/js/verktygBundle.js')
     script.
         var tools = !{JSON.stringify(tools)}; // For getting the 'tools' variable from pug
