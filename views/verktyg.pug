@@ -19,9 +19,9 @@ block content
             hr
             .tools-form
                 form(action='/verktyg/submit', method='post', id='tool-form')
-                    input(type='text', name='name', placeholder='Namn')
+                    input(type='text', name='name', id='name', placeholder='Namn')
                     br
-                    input(type='text', name='email', placeholder='Mail')
+                    input(type='text', name='email', id='email', placeholder='Mail')
                     br
                     input(type='text', name='startDate' id='datepickerStart', placeholder='Startdatum')
                     br
@@ -31,17 +31,18 @@ block content
                     input(type='hidden', name='toolList' ,id='tool-list-input')
                     table.center(id='tool-list')
                     br
-                    select(onchange='setNumber()', id='select-tool')
+                    select(onchange='verktyg.setNumber()', id='select-tool')
                         each t in tools
                             option(value=t.name)= t.name
                     input(type='number', id='select-number', min='1', value='1', max=tools[0].amount)
                     br
-                    button(type='button' onclick='addTool()') Låna
+                    button(type='button' onclick='verktyg.addTool()') Låna
                     br
                     hr
-                    button.large(onclick='addToolList()') Skicka
+                    button.large(type='submit') Skicka
 
-    script(type='text/javascript', src='/js/verktyg.js')
+    script(type='text/javascript', src='https://code.jquery.com/jquery-3.1.1.min.js')
+    //script(type='text/javascript', src='/js/verktyg.js')
+    script(type='text/javascript', src='/js/verktygBundle.js')
     script.
         tools = !{JSON.stringify(tools)}; // For getting the 'tools' variable from pug
-    script(type='text/javascript', src='/js/verktygBundle.js')

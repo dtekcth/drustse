@@ -2,7 +2,7 @@
   "name": "drust-website",
   "version": "0.0.1",
   "scripts": {
-    "start": "babel public/js --out-dir public/js --only *.es6 && browserify public/js/verktygDate.js -o public/js/verktygBundle.js && nodejs server.js"
+    "start": "babel public/js --out-dir public/js --only *.es6 && browserify public/js/verktyg.js --standalone verktyg -o public/js/verktygBundle.js && nodejs server.js"
   },
   "dependencies": {
     "babel-cli": "^6.11.4",

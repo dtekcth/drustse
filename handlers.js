@@ -35,7 +35,7 @@ function toolSubmitHandler(req, res) {
   const endDate = req.body.endDate;
   const toolList = JSON.parse(req.body.toolList);
   //TODO: Add mailer
-  res.redirect('/verktyg');
+  res.json({status : 'OK'});
 }
 
 // Handler for the tools page
