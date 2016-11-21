@@ -5,15 +5,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const marked = require('marked');
-const async = require('async');
 const tools = require('./db/routes_tools');
 const articles = require('./db/routes_articles');
 const admin = require('./admin');
+const handlers = require('./handlers');
 const userManagement  = require('./userManagement');
-
-const Tool        = require('./db/toolModel');
-const NewsArticle = require('./db/newsArticleModel.js');
 
 const argv = require('minimist')(process.argv.slice(2));
 
@@ -49,7 +45,6 @@ app.set('view engine', 'pug');
 const createUser = argv.name && argv.passw;
 
 // Database stuff
-
 const db = mongoose.connect('mongodb://localhost/db').connection;
 
 db.on('error', (err) => { console.log(err.message); });
@@ -59,59 +54,26 @@ app.use('/db/tools', tools);
 app.use('/db/articles', articles);
 app.use('/admin', admin.router);
 
-// Handler for root that displays news articles
-function homeHandler(req, res) {
-  NewsArticle.find({}, null, {sort: {posted: 'desc'}}, function (err, articles) {
-    if (err) {
-      console.error(err);
-
-      res.render('hem', {title: 'Hem', articles: {success: false}});
-    } else {
-      for (let i = 0; i < articles.length; i++) {
-        // article.body is some king of buffer and must be cast to String
-        // before `marked` can parse it
-        let body = String(articles[i].body);
-
-        articles[i].body = marked(body);
-      }
-
-      res.render('hem', {title: 'Hem', articles: {success: true, payload: articles}});
-    }
-  });
-}
-
-
 if(createUser){ // If we want to add a user
   // Exit afterwards
   userManagement.addUser(argv.name, argv.passw, process.exit);
 }
 
 // Routes
-app.get('/', homeHandler);
+app.get('/', handlers.homeHandler);
+
 app.get('/drust', (req, res) => {
   res.render('drust', {title: 'DRust'});
 });
+
 app.get('/basen', (req, res) => {
   res.render('basen', {title: 'Basen'});
 });
-app.get('/verktyg', (req, res) => {
-  Tool.find(function (err, tools) {
-    if (err) {
-      console.error(err);
-    }
 
-    res.render('verktyg', {title: 'Verktyg', tools: tools});
-  });
-});
-app.post('/verktyg/submit', (req, res) => {
-  const name = req.body.name;
-  const email = req.body.email;
-  const startDate = req.body.startDate;
-  const endDate = req.body.endDate;
-  const toolList = JSON.parse(req.body.toolList);
-  //TODO: Add mailer
-  res.redirect('/verktyg');
-});
+app.get('/verktyg', handlers.toolHandler);
+
+app.post('/verktyg/submit', handlers.toolSubmitHandler);
+
 app.get('/automaten', (req, res) => {
   res.render('automaten', {title: 'Automaten'});
 });

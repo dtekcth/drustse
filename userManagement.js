@@ -10,24 +10,29 @@ const salt = 'der bedste salten ind das heile eurobe';
 
 /*
     Adds a new user to the db
-    'callback' parameter is optional
+    'callback' parameter is optional, and will be undefined otherwise
  */
 function addUser(name, password, callback) {
 
   User.count({ username: name}, (err, count) => {
+
     if (!count) { // If the user doesn't exist
       bcrypt.hash(String(password), salt, (err, hash) => {
         User.create({username: name, hash: hash}, function (err) {
-          if (err)
-              return console.log(err);
-          if(callback)
-              callback();
+
+          if (err) {
+            return console.log(err);
+          }
+
+          console.log("User successfully created");
+
+          // Check if callback is not undefined or anything else than a function
+          if(typeof callback === 'function') {callback();}
         });
       });
     } else { // If the user exists
       console.log(name + ' already exists as a user');
-      if(callback)
-          callback();
+      if(typeof callback === 'function') {callback();}
     }
   });
 }
