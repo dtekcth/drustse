@@ -16,11 +16,23 @@ module.exports = function(grunt) {
           ext: '.js'
         }]
       }
+    },
+    browserify: {
+      options: {
+        browserifyOptions: {
+          standalone: 'verktyg'
+        }
+      },
+      js:{
+        src: ['public/js/verktyg.js'],
+        dest: 'public/js/verktygBundle.js'
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-babel');
+  grunt.loadNpmTasks('grunt-browserify');
 
-  grunt.registerTask('default', ['babel']);
+  grunt.registerTask('default', ['babel', 'browserify']);
 
 };
