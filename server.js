@@ -1,6 +1,5 @@
 'use strict';
 
-const sassMiddleware = require('node-sass-middleware');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -22,13 +21,6 @@ pug.filters.babel = babel({});
 
 // Constants
 const port = process.env.PORT || 5000;
-
-// Settings for static files
-app.use(sassMiddleware({
-  src: __dirname + "/public",
-  dest:__dirname + "/public",
-  debug: false
-}));
 
 app.use(cookieParser());
 

@@ -27,12 +27,23 @@ module.exports = function(grunt) {
         src: ['public/js/verktyg.js'],
         dest: 'public/js/verktygBundle.js'
       }
+    },
+    sass: {
+      options: {
+        compress: true
+      },
+      compile: {
+        files: {
+          'public/stylesheets/layout.css' : 'public/stylesheets/layout.scss'
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-sass');
 
-  grunt.registerTask('default', ['babel', 'browserify']);
+  grunt.registerTask('default', ['babel', 'browserify', 'sass']);
 
 };
