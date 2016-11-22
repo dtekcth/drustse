@@ -10,11 +10,13 @@ const admin = require('./admin');
 const handlers = require('./handlers');
 const userManagement  = require('./userManagement');
 
+// Command line arguments
 const argv = require('minimist')(process.argv.slice(2));
 
 const app = express();
 
 // For ES6 js in pug files
+//TODO: Remove, we don't need no js in pug files anyway. Don't forget to remove from README too
 const pug = require('pug');
 const babel = require('jade-babel');
 pug.filters.babel = babel({});
