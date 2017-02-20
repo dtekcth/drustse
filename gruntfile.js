@@ -37,13 +37,23 @@ module.exports = function(grunt) {
           'public/stylesheets/layout.css' : 'public/stylesheets/layout.scss'
         }
       }
+    },
+    uglify: {
+      dist: {
+        files: {
+          'public/js/admin.min.js' : 'public/js/admin.js',
+          'public/js/core.min.js' : 'public/js/core.js',
+          'public/js/verktygBundle.min.js' : 'public/js/verktygBundle.js'
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('default', ['babel', 'browserify', 'sass']);
+  grunt.registerTask('default', ['babel', 'browserify', 'sass', 'uglify']);
 
 };

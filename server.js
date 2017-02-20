@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const tools = require('./db/routes_tools');
 const articles = require('./db/routes_articles');
 const admin = require('./admin');
@@ -24,6 +25,7 @@ const port = process.env.PORT || 5000;
 
 app.use(cookieParser());
 
+app.use(compression());
 app.use(express.static('public'));
 
 //Parses incoming body to req.body
