@@ -3,11 +3,15 @@
 
 ## Setup
 
-1. Install nodejs and npm
+1. Install nodejs, npm, and mongodb
 
 2. Run `npm install`
 
-3. Run `npm start` to start the server
+3. Add local install of `grunt-cli` to path, or install globally with `npm install -g grunt-cli`
+
+4. Start the mongodb daemon
+
+5. Run `npm start` to start the server
 
 ## Usage
 
@@ -29,7 +33,7 @@ nodejs server.js --name=UserName --passw=Password
 
   block title
       title= title
-      
+
   block includes
       //- Include stylesheets or js files here
 
@@ -40,11 +44,11 @@ nodejs server.js --name=UserName --passw=Password
   [Pug documentation](http://jade-lang.com/reference/)
 3. In server.js add:
   ```javascript
-  
+
   app.get('/$path',(req, res) => { res.render('$name', {title:'$title'}); });
-  
+
   ```
-  where 
+  where
   `$path` is the subfolder in the url that you want,
   `$name` is the name of the pug file,
   `$title` is the title you want for the view.
@@ -57,7 +61,7 @@ If you add a new js file to the server/backend, use `.js` file extension as newe
 If you add a new js file to the frontend (public/js), use the `.es6` file extension so babel can convert it to ES5 code. Never use `.js` as that file extension is ignored by git in that folder.
 
 #### Coding style
-Always 
+Always
 ``` javascript
   'use strict';
 ```
@@ -79,7 +83,7 @@ Never use ```var```.
 If you want to use inline javascript, use the `:babel` filter to convert to ES5.
 
 Example:
-```javascript    
+```javascript
 script
   :babel
       class Person {
@@ -92,7 +96,7 @@ script
 ```
 
 ### About SCSS
-Try to write your scss in a new file or in one existing that makes sense and then import the module to `layout.scss`. Add an underscore as prefix to your .scss file, like `_example.scss` and then import it in `layout.scss` with 
+Try to write your scss in a new file or in one existing that makes sense and then import the module to `layout.scss`. Add an underscore as prefix to your .scss file, like `_example.scss` and then import it in `layout.scss` with
 ```scss
   @import 'example'
 ```
