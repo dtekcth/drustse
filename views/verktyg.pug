@@ -17,31 +17,37 @@ block content
         // TODO: Form fields must be required before sending
 
         .center-content
-            p Vill du låna verktyg av DRust? Fyll i detta formulär så hör vi av oss.
-            hr
-            .tools-form
-                form(action='/verktyg/submit', method='post', id='tool-form')
-                    input(type='text', name='name', id='name', placeholder='Namn')
-                    br
-                    input(type='text', name='email', id='email', placeholder='Mail')
-                    br
-                    input(type='text', name='startDate' id='datepickerStart', placeholder='Startdatum')
-                    br
-                    input(type='text', name='endDate', id='datepickerEnd', placeholder='Återlämningsdatum')
-                    hr
-                    h4 Vilka verktyg vill du låna?
-                    input(type='hidden', name='toolList' ,id='tool-list-input')
-                    table.center(id='tool-list')
-                    br
-                    select(onchange='verktyg.setNumber()', id='select-tool')
-                        each t in tools
-                            option(value=t.name)= t.name
-                    input(type='number', id='select-number', min='1', value='1', max=tools[0].amount)
-                    br
-                    button(type='button' onclick='verktyg.addTool()') Låna
-                    br
-                    hr
-                    button.large(type='submit') Skicka
+            img(src='/images/btrainbow1_e0.gif')
+            img(src='/images/anim0208-1_e0.gif')
+            img(src='/images/comsoon2_e0.gif')
+            img(src='/images/accreation_e0.gif')
+            img(src='/images/5consbar2_e0.gif')
+
+            // p Vill du låna verktyg av DRust? Fyll i detta formulär så hör vi av oss.
+            // hr
+            // .tools-form
+            //     form(action='/verktyg/submit', method='post', id='tool-form')
+            //         input(type='text', name='name', id='name', placeholder='Namn')
+            //         br
+            //         input(type='text', name='email', id='email', placeholder='Mail')
+            //         br
+            //         input(type='text', name='startDate' id='datepickerStart', placeholder='Startdatum')
+            //         br
+            //         input(type='text', name='endDate', id='datepickerEnd', placeholder='Återlämningsdatum')
+            //         hr
+            //         h4 Vilka verktyg vill du låna?
+            //         input(type='hidden', name='toolList' ,id='tool-list-input')
+            //         table.center(id='tool-list')
+            //         br
+            //         select(onchange='verktyg.setNumber()', id='select-tool')
+            //             each t in tools
+            //                 option(value=t.name)= t.name
+            //         input(type='number', id='select-number', min='0', value='0', max='0')
+            //         br
+            //         button(type='button' onclick='verktyg.addTool()') Låna
+            //         br
+            //         hr
+            //         button.large(type='submit') Skicka
 
     script(type='text/javascript', src='/js/verktygBundle.min.js')
     script.
