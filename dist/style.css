@@ -11,6 +11,15 @@ ul {
   background-color: yellow;
 }
 
+#märke {
+  margin-top: -360px;
+  margin-left: 1080px;
+}
+
+#aboutDRust {
+  margin-top: 225px;
+}
+
 li {
   float: left;
 }
@@ -21,6 +30,7 @@ li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  font-family: Berlin sans fb regular;
 }
 
 li a:hover {
@@ -28,14 +38,14 @@ li a:hover {
 }
 
 li a:active {
-  background-color: green;
+  background-color: white;
+  color: black;
 }
 
 .red_and_big {
-  background-color: green;
+  background-color: black;
+  color: white;
 }
-
-
 
 img {
   display: block;
@@ -46,14 +56,28 @@ img {
 h1 {
   color: white;
   text-align: center;
+  font-style: normal;
 }
 
 h2 {
   color: black;
   text-align: center;
+  font-family: Berlin sans fb regular;
 }
 
 h3 {
   color: black;
   text-align: center;
+  font-family: Berlin sans fb regular;
+}
+
+#facebook {
+  width: 100px;
+  height: 100px;
+  display: block;
+}
+
+#facebook img {
+  width: 100%;
+  height: 100%;
 }
