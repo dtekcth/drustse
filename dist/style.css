@@ -11,6 +11,11 @@ ul {
   background-color: yellow;
 }
 
+#Bakgrund {
+  height:auto;
+  width:100%;
+}
+
 #märke {
   margin-top: -360px;
   margin-left: 1080px;
@@ -18,6 +23,10 @@ ul {
 
 #aboutDRust {
   margin-top: 225px;
+}
+
+#indexMärke {
+  margin-top: -250px;
 }
 
 li {
@@ -72,9 +81,24 @@ h3 {
 }
 
 #facebook {
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   display: block;
+  margin-left: 1210px;
+  margin-top: -50px;
+}
+
+#instagram {
+  width: 75px;
+  height: 75px;
+  display: block;
+  margin-left: 1210px;
+  margin-top: -160px;
+}
+
+#instagram img {
+  width: 100%;
+  height: 100%;
 }
 
 #facebook img {
